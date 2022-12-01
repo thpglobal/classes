@@ -1,6 +1,7 @@
 {
     "name": "thpglobal/classes",
     "description": "THP app classes",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",

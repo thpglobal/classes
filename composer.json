@@ -1,9 +1,21 @@
 {
     "name": "thpglobal/classes",
     "description": "THP app classes",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "library",
     "license": "MIT",
-    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "thpglobal\\classes\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "John Coonrod",
+            "email": "jc@thp.org"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {}
 }

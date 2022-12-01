@@ -5,3 +5,4 @@
 ```
 composer require thpglobal/classes
 ```
+This will load the classes inside vendor, using the namespace thpglobal/classes

@@ -6,9 +6,9 @@ class Page {
 ?>  
 <html lang="en">
 	<head>
-	<title><?php echo $title?></title>
-	<link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-</head>
+	  <title><?php echo $title?></title>
+	  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css">
+  </head>
   <body>
 	  <h1><?php echo $title?></title>
   </body>

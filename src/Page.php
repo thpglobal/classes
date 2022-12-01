@@ -1,5 +1,5 @@
 <?php
-namespace thpglobal/classes;
+namespace Thpglobal\Classes;
 
 class Page {
   public function start($title='Hello'){
@@ -13,5 +13,6 @@ class Page {
 	  <h1><?php echo $title?></title>
   </body>
 </html>
-<?php } // end of function ?>
-
+<?php
+  }
+}

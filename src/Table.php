@@ -394,6 +394,12 @@ class Table { // These are public for now but may eventually be private with set
 	// Discovered a big problem - foreach doesn't go in order! Yikes!
 	
 	public $rowspan2=0; // Notes fields need a rowspan mid-row for studies etc.
+
+	private function putrow($row) {
+		echo("<tr>");
+		foreach($row as $cell) echo("<td>$cell</td>");
+		echo("</tr>");
+	}
 	
 	public function show($href=''){ // experimental version
         // Set parameters appropriate to various options
@@ -419,9 +425,13 @@ class Table { // These are public for now but may eventually be private with set
 				}
 			}
 		}
-		// output the header
+		// output the header and then tbody tag
 		$this->thead($nstart);
 		// now output all the regular rows
+
+		foreach($this->contents as $i => $row) $this->putrow($row);
+		echo("</tbody>\n");
+/*
 		for($i=1;$i<$nrows;$i++) {
 			$row=$this->contents[$i]; // take the next row in line
 			if($ngroups>0) { // output a bar based on column zero if requested
@@ -470,6 +480,7 @@ class Table { // These are public for now but may eventually be private with set
 			echo("</tr>\n");
 		} // end i
 		echo("</tbody>\n");
+*/
 	// for datatables, add a footer
 		if($_SESSION["datatable"]) {
 			echo("<tfoot><tr>");

@@ -12,7 +12,7 @@ class Form {
 	public $ignore=array();
 	public $where=array(); // ability to add filters to dropdowns inside ->record
 	private function debug($name,$item){
-		if($_COOKIE["debug"]) {
+		if(array_index_exists("debug",$_COOKIE)) {
 			echo("<p>$name: "); print_r($item); echo("</p>\n");
 		}
 	}

@@ -67,7 +67,7 @@ class Filter {
 	}
 	public function query($name,$query){
 		if($this->db==NULL) Die("You forgot to pass $db in the start method.");
-		return $this->pairs($name, $this->db->query($query)->fetchAll(PDO::FETCH_KEY_PAIR) );
+		return $this->pairs($name, $this->db->query($query)->fetchAll(12) );
 	}
 	public function table($name,$where=''){
 		$where_clause=($where=='' ? "" : "where $where");

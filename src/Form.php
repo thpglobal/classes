@@ -118,7 +118,7 @@ class Form {
 	public function query($name,$query,$required=0){
 		$pdo_stmt=$this->db->query($query);
 		if(!is_object($pdo_stmt)) Die("Fatal Error - bad query - $query \n");
-		$this->pairs($name,$pdo_stmt->fetchAll(PDO::FETCH_KEY_PAIR),$required);
+		$this->pairs($name,$pdo_stmt->fetchAll(12),$required);
 	}
 	public function record($table,$id){ // goes inside start and end
 		// Also can create a new record if id==0
@@ -127,7 +127,7 @@ class Form {
 		$this->hide("table",$table);
 		$pdo_stmt=$this->db->query("select * from $table where id='$id'");
 		if(!is_object($pdo_stmt)) Die("Fatal Error - bad query - $query \n");
-		$this->data = $pdo_stmt->fetch(PDO::FETCH_ASSOC);
+		$this->data = $pdo_stmt->fetch(2);
 		
 		foreach(range(0, $pdo_stmt->columnCount() - 1) as $column_index)
 		{ $meta[$column_index] = $pdo_stmt->getColumnMeta($column_index);}

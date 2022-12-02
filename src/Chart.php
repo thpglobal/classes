@@ -34,7 +34,7 @@ class Chart{
 	public function query($n,$title,$query) { // run a query direct into a barchart
 		if($this->db==NULL) Die("You forgot the Chart::start($db) method.");
 		$pdo_stmt=$this->db->query($query);
-		while($line=$pdo_stmt->fetch(PDO::FETCH_NUM)){ $x[]=$line[0];$y[]=$line[1];}
+		while($line=$pdo_stmt->fetch(3)){ $x[]=$line[0];$y[]=$line[1];}
 		$this->make($n,$title,'bar',$x,$y);
 	}
 

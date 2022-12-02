@@ -47,7 +47,7 @@ class Table { // These are public for now but may eventually be private with set
 		if(empty($query)){return false;}
 		$pdo_stmt=$this->db->query($query);
 		if(!is_object($pdo_stmt)) echo("<div> Error: bad query: $query.</div>");
-		$data=$pdo_stmt->fetch(PDO::FETCH_ASSOC);
+		$data=$pdo_stmt->fetch(2);
 		return $data;
     }
 		
@@ -58,7 +58,7 @@ class Table { // These are public for now but may eventually be private with set
 				$meta = $pdo_stmt->getColumnMeta($column_index);
 				$this->contents[0][$column_index]=$meta["name"];
 			}
-		while($row = $pdo_stmt->fetch(PDO::FETCH_NUM)) $this->contents[]=$row;
+		while($row = $pdo_stmt->fetch(3)) $this->contents[]=$row;
 	}
 	public function column($id_col,$dest_col,$array){
 		if($_SESSION["debug"]) {echo("<p>Column:"); print_r($array); echo("</p>\n");}
@@ -83,7 +83,7 @@ class Table { // These are public for now but may eventually be private with set
 		if($_SESSION["debug"]) echo("<p>Map Query $query</p>\n");
 		$pdo_stmt=$this->db->query($query);
 		$nrows=sizeof($this->contents);
-		while($row = $pdo_stmt->fetch(PDO::FETCH_NUM)) {
+		while($row = $pdo_stmt->fetch(3)) {
 			$n=sizeof($row);
 			$i=$this->backmap[$row[0]]; // into which row do we plant this?
 			if($_SESSION["debug"]) echo("<p>Map n $n i $i ".print_r($row,TRUE)."</p>\n");
@@ -94,7 +94,7 @@ class Table { // These are public for now but may eventually be private with set
 	}
 				
 	public function loadrows($result) { // load from the output of a pdo query
-		while($row=$result->fetch(PDO::FETCH_NUM)) $this->row($row);
+		while($row=$result->fetch(3)) $this->row($row);
 	}
 	public function dump() {
 		print_r($this->contents);
@@ -103,7 +103,7 @@ class Table { // These are public for now but may eventually be private with set
 		$this->contents[0]=array("Field","Value");
 		$pdo_stmt=$this->db->query("select * from $table where id='$id'");
 		if(!is_object($pdo_stmt)) Die("</div>Fatal Error: bad query in Table: $query.");
-		$data=$pdo_stmt->fetch(PDO::FETCH_ASSOC);
+		$data=$pdo_stmt->fetch(2);
 		foreach( (array) $data as $key=>$value) {
 			$row[0]=$key; $row[1]=$value;
 			$this->contents[]=$row;
@@ -313,7 +313,7 @@ class Table { // These are public for now but may eventually be private with set
 		// the "pointer" to a disaggregate is $ni+$nsums+($nd*$j)+$i
 		// it now also fills the backmap array
 		if(!($result=$this->db->query($query))) Die($query);
-		while($row=$result->fetch(PDO::FETCH_NUM)){ // fold each row into rowspan rows
+		while($row=$result->fetch(3)){ // fold each row into rowspan rows
 //			if($_SESSION["debug"]) {echo("<p>Debug pivot $ni");print_r($row);echo("</p>\n");}
 			$n=$row[$ni]; // rowspan
 			for($i=1;$i<=$n;$i++){

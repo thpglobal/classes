@@ -376,6 +376,7 @@ class Table { // These are public for now but may eventually be private with set
 	public function thead($jstart=1){
 		$row=$this->contents[0];
 		$ncols=sizeof($row);
+		$nclasses=sizeof($this->classes);
 		$striped=($nclasses>0 ? "" : "pure-table-striped");
 		$tid=($_SESSION["datatable"] ? "id='datatable'" : "");
 		$sticky=($_SESSION["datatable"] ? "" : "style='position: sticky; top: -1px;'");
@@ -405,6 +406,7 @@ class Table { // These are public for now but may eventually be private with set
 		$nrows=sizeof($this->contents);
 	    $ncols=sizeof($this->contents[0]);
 		$nrowspan=$this->rowspan;
+		$rowspan=[]; // set up local associative array
 		// If we're doing rowspan, set up the array
 		if($nrowspan) { // note rowspan here is a local array
 			$first="";
@@ -430,9 +432,9 @@ class Table { // These are public for now but may eventually be private with set
 				}
 			}
 			$ntag=($this->hidelink ? $nstart-1 : $nstart);
-			$tag=$row[$ntag]; // if there is an id here, this is it
-			$class=$this->classes[$tag]; // is there a special class definition for this row?
-			if($class>'') $class=" class=$class";
+			$tag=(array_key_exists($ntag,$row) ? $row[$ntag] : NULL); // if there is an id here, this is it
+			$class=(array_key_exists($tag,$this->classes) ? $this->classes[$tag] : ""); // is there a special class definition for this row?
+			if($class) $class=" class=$class";
 			echo("<tr$class>"); // Start outputing rows
 			// Here is where all the variability comes in
 			// if there are rowspans we send out the that many columns only at start of a rowspan group

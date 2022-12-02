@@ -400,8 +400,8 @@ class Table { // These are public for now but may eventually be private with set
 		$ncols=sizeof($row);
 		$i1=0;
 		if($href) {
-			echo("<td><a href=$href".$row[0].">".$row[1]."</td>");
-			$i1=2;
+			echo("<td><a href=$href".$row[0].">".$row[0]."</td>");
+			$i1=1;
 		}
 		for($i=$i1;$i<$ncols;$i++) echo("<td>".$row[$i]."</td>");
 		echo("</tr>");
@@ -435,7 +435,7 @@ class Table { // These are public for now but may eventually be private with set
 		$this->thead($nstart);
 		// now output all the regular rows
 
-		foreach($this->contents as $i => $row) $this->putrow($row,$href);
+		foreach($this->contents as $i => $row) if($i) $this->putrow($row,$href);
 		echo("</tbody>\n");
 /*
 		for($i=1;$i<$nrows;$i++) {

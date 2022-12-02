@@ -6,19 +6,7 @@
     "autoload": {
         "psr-4": {
             "Thpglobal\\Classes\\": "src"
-        },
-        "files": [
-            "app/query.php",
-            "app/list.php",
-            "app/edit.php",
-            "app/upload.php",
-            "app/export.php",
-            "app/chart.php",
-            "app/cookies.php",
-            "app/dump.php",
-            "app/import.php",
-            "app/update.php"
-        ]
+        }
     },
     "authors": [
         {

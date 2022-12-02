@@ -1,8 +1,8 @@
 <?php
 // Display a chart for whatever data is in the Contents array.
 // Initial step simply sets up a line chart but then we will add more complexity
-require_once(__DIR__."/../classes/thp_classes.php");
-$page=new Page;
+
+$page=new \Thpglobal\Classes\Page;
 
 $types=array("line"=>"Line","bar"=>"Bar","radar"=>"Radar","scatter"=>"Scatter","pie"=>"Pie","doughnut"=>"Doughnut");
 
@@ -11,7 +11,7 @@ $contents=$_SESSION["contents"];
 $nrows=sizeof($contents);
 if(!$nrows) Die("No data.");
 
-$filter=new Filter;
+$filter=new \Thpglobal\Classes\Filter;
 $filter->start();
 $ctype=$filter->pairs("chart_type",$types);
 $filter->end();
@@ -21,7 +21,7 @@ for($i=1;$i<$nrows;$i++) {
 	$y[]=$contents[$i][1];
 }
 echo("<p>Query: ".$_SESSION["query"]."</p>\n");
-$chart=new Chart;
+$chart=new \Thpglobal\Classes\Chart;
 $chart->color='black'; 
 $chart->background='white';
 $chart->fill='#ff8787';

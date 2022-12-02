@@ -74,7 +74,7 @@ $dir = sys_get_temp_dir();
 $tmp = tempnam($dir, $fname);
 
 
-$zip=new ZipArchive; // formerly $zipFile = new \PhpZip\ZipFile();
+$zip=new \Thpglobal\Classes\ZipArchive; // formerly $zipFile = new \PhpZip\ZipFile();
 $zip->open($tmp,ZipArchive::CREATE);
 $zip->addFromString("xl/drawings/drawing1.xml", $drawing );
 $zip->addFromString("xl/worksheets/sheet1.xml", $sheet1 );

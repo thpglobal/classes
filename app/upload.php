@@ -3,7 +3,7 @@
 require(__DIR__."/../classes/thp_classes.php"); // Load the classes
 $into=$_GET["into"];
 if($into=="") $into="/dump"; // Default to show $contents
-$page=new Page;
+$page=new \Thpglobal\Classes\Page;
 $page->start("Spreadsheet Upload into $into");
 echo("<p>You may only upload Excel files generated from this system.</p>\n");
 echo("<form action=import enctype='multipart/form-data' method='post'>"); 

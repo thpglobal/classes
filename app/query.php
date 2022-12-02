@@ -1,7 +1,6 @@
 <?php
 // Simple query display
-require_once(__DIR__."/../classes/thp_classes.php");
-$page=new Page;
+$page=new \Thpglobal\Classes\Page;
 $page->icon("download","/export","Download as excel");
 $page->icon("pie-chart","chart?chart_type=pie","Display as Pie Chart");
 $page->icon("bar-chart","chart?chart_type=bar","Display as Bar Chart");
@@ -19,7 +18,7 @@ if( isset($_GET["query"]) ){
 	$query=$_GET["query"];
 	$start=substr($query,0,4); // determine type of event based on first 4 letters
 	if(in_array($start,array("show","sele","expl"))){
-		$grid=new Table;
+		$grid=new \Thpglobal\Classes\Table;
 		$grid->start($db);
 		$grid->query($query);
 		$grid->show();

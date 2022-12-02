@@ -12,10 +12,10 @@ if($hide) {
 }													
 if($id=='') $id=0;
 $prefix=($id>0 ? "Edit Record $id" : "Create new record");
-$page=new Page;
+$page=new \Thpglobal\Classes\Page;
 $page->start("$prefix in $table");
 if($table=='') Die("No table set.");
-$form=new Form;
+$form=new \Thpglobal\Classes\Form;
 debug("Hide","$hide $cookie_name ".$_COOKIE[$cookie_name]);
 $form->start($db,"/update");
 if($hide) $form->hidden=$hidden;

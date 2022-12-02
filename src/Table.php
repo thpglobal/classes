@@ -395,9 +395,15 @@ class Table { // These are public for now but may eventually be private with set
 	
 	public $rowspan2=0; // Notes fields need a rowspan mid-row for studies etc.
 
-	private function putrow($row) {
+	private function putrow($row,$href) {
 		echo("<tr>");
-		foreach($row as $cell) echo("<td>$cell</td>");
+		$ncols=sizeof($row);
+		$i1=0;
+		if($href) {
+			echo("<td><a href=$href".$row[0].">".$row[1]."</td>");
+			$i1=2;
+		}
+		for($i=$i1;$i<$ncols;$i++) echo("<td>".$row[$i]."</td>");
 		echo("</tr>");
 	}
 	
@@ -429,7 +435,7 @@ class Table { // These are public for now but may eventually be private with set
 		$this->thead($nstart);
 		// now output all the regular rows
 
-		foreach($this->contents as $i => $row) $this->putrow($row);
+		foreach($this->contents as $i => $row) $this->putrow($row,$href);
 		echo("</tbody>\n");
 /*
 		for($i=1;$i<$nrows;$i++) {

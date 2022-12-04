@@ -62,7 +62,7 @@ class Page {
 		echo("<!DOCTYPE html>\n<html lang=$lang>\n<head>\n");
 		echo("<meta name=viewport content='width=device-width, initial-scale=1'>\n");
 		echo("<title>$title</title>\n");
-		echo("<meta name='description' content='$title built on opensource github.com/thpglobal/thpclasses'/>\n");
+		echo("<meta name='description' content='$title built on opensource github.com/thpglobal/classes'/>\n");
 		echo("<link rel='shortcut icon' href='/static/favicon.png'>\n");
 		echo("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/pure-min.css'>\n");
 		echo("<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/pure/1.0.0/grids-responsive.css'>\n");
@@ -82,7 +82,7 @@ class Page {
 		echo("<!DOCTYPE html>\n<html lang=$lang>\n<head>\n");
 		echo("<meta name=viewport content='width=device-width, initial-scale=1'>\n");
 		echo("<title>$title</title>\n");
-		echo("<meta name='description' content='$title built on opensource github.com/thpglobal/thpclasses'/>\n");
+		echo("<meta name='description' content='$title built on opensource github.com/thpglobal/classes'/>\n");
 		echo("<link rel='shortcut icon' href='/static/favicon.png'>\n");
 		if(file_exists($_SERVER['DOCUMENT_ROOT']."/static/purefa.css")) {
 			echo("<link rel='stylesheet' href='/static/purefa.css'>\n");// avoid all CDNs for Bangladesh

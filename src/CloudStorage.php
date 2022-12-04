@@ -17,7 +17,7 @@ Class CloudStorage extends StorageClient {
 		$cts["docx"]="application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 		$cts["pptx"]="application/vnd.openxmlformats-officedocument.presentationml.presentation";
 		$cts[".doc"]="application/msword";
-		if(array_key_exists($ext,$cts)){ $ct=$cts[$ext]; $mode='inline'; }
+		if(boolval($cts[$ext]??FALSE)){ $ct=$cts[$ext]; $mode='inline'; }
 		header("Content-Type:".$ct);
 		header("Content-Disposition:$mode; filename=$name");
 		header("Content-Transfer-Encoding: binary");

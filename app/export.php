@@ -28,7 +28,7 @@ for($i=0;$i<$nrows;$i++){
 		$col_name=($j<26 ? chr(65+$j) : chr(64+intdiv($j,26)).chr(65+($j % 26)) );
 		if(!is_numeric($value)) {
 			$value=htmlspecialchars($value);
-			if(array_key_exists($value,$strings)) { $nstrings++; $value=$strings[$value];}
+			if(boolval($strings[$value]??FALSE)) { $nstrings++; $value=$strings[$value];}
 			else{$key=$value; $value=$nunique; $strings[$key]=$value; $nunique++; $nstrings++;}
 			$sheet1b .= '<c r="'.$col_name.($i+1).'" s="1" t="s"><v>'.$value.'</v></c>';
 		}else{

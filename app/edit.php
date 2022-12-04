@@ -1,8 +1,8 @@
 <?php // Edit one record from old budget tables
 // 2020-06 allow the ability to pass one hidden identifier name to be preset by cookie value
-$table=$_COOKIE["table"];
-$id=$_COOKIE["id"];
-$hide=$_COOKIE["hidden"]; // Allow one hidden variable to be passed in the url
+$table=$_COOKIE["table"] ?? '';
+$id=$_COOKIE["id"] ?? '';
+$hide=$_COOKIE["hidden"] ?? ''; // Allow one hidden variable to be passed in the url
 if($hide) {
 	// is it the name of a dropdown link?
 	$n=strpos($hide,"_ID"); 

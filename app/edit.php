@@ -15,7 +15,6 @@ $page=new \Thpglobal\Classes\Page;
 $page->start("$prefix in $table");
 if($table=='') Die("No table set.");
 $form=new \Thpglobal\Classes\Form;
-debug("Hide","$hide $cookie_name ".$_COOKIE[$cookie_name]);
 $form->start($db,"/update");
 if($hide) $form->hidden=$hidden;
 $form->record($table,$id);

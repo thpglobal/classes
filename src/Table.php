@@ -367,7 +367,7 @@ public function show($href=''){ // experimental version
 		}
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);
 		$tag=$row[$ntag]; // if there is an id here, this is it
-		$class=$this->classes[$tag]; // is there a special class definition for this row?
+		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
 		if($class>'') $class=" class=$class";
 		echo("<tr$class>"); // Start outputing rows
 		// Here is where all the variability comes in

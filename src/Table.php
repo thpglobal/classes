@@ -1,6 +1,5 @@
 <?php
 namespace Thpglobal\Classes;
-
 //
 class Table { // These are public for now but may eventually be private with setters
 	protected $db; // database connection
@@ -212,76 +211,6 @@ class Table { // These are public for now but may eventually be private with set
 		if($_SESSION["debug"]) echo("<p>Debug Smart $query</p>\n");
 		$this->query($query);
 	}
-	
-	### Add extra joins with non-foreign key tables to achieve complex queries
-    ### Pass extra joins, selects, group bys with the $extraJoin parameter
- 	### Link any foreign keys to their dependent table name field
-	public function smartquery2($table,$where="",$extraJoin=array()){
-		$from=" from $table a";
-		$alias=97; // ascii for lowercase a
-		$pdo_stmt=$this->db->query("select * from $table limit 0"); // we need the names of the fields
-		$query="select ";
-		foreach(range(0, $pdo_stmt->columnCount() - 1) as $column_index) {
-			$name=$pdo_stmt->getColumnMeta($column_index)["name"];
-			if(substr($name,-3)=="_ID") {
-				$alias++; // go to the next lowercase letter
-				$from .=" left outer join ".strtolower(substr($name,0,-3))." ".chr($alias)." on a.$name=".chr($alias).".id ";
-				$query .= chr($alias).".name as ".substr($name,0,-3).", ";
-			}else{
-				$query .= "a.$name, ";
-			}
-		}
-		### Add extra joins if applicable
-		if( !empty($extraJoin) ) {
-            $query = str_replace($extraJoin['after'],$extraJoin['after'].$extraJoin['select'],$query);
-            $from .= $extraJoin['joins'];
-            $query = substr($query,0,-2).$from.$where. $extraJoin['groupby'] . " order by 1 desc limit 1500";
-		} else {
-             $query=substr($query,0,-2).$from.$where." order by 1 desc limit 1500";
-        }
-		if($_SESSION["debug"]) echo("<p>Debug Smart $query</p>\n");
-		$this->query($query);
-	}
-	
-	
-	
-	### Allow to select specific column names to display.
-	### Add extra joins with non-foreign key tables to achieve complex queries
-    ### Pass extra joins, selects, group bys with the $extraJoin parameter
- 	### Link any foreign keys to their dependent table name field
-	public function smartquery3($table, $what="*", $where="",$extraJoin=array()){
-		$from=" from $table a";
-		$alias=97; // ascii for lowercase a
-		$pdo_stmt=$this->db->query("select $what from $table limit 0"); // we need the names of the fields
-		$query="select ";
-		foreach(range(0, $pdo_stmt->columnCount() - 1) as $column_index) {
-			$name=$pdo_stmt->getColumnMeta($column_index)["name"];
-			if(substr($name,-3)=="_ID") {
-				$alias++; // go to the next lowercase letter
-				$from .=" left outer join ".strtolower(substr($name,0,-3))." ".chr($alias)." on a.$name=".chr($alias).".id ";
-				$query .= chr($alias).".name as ".substr($name,0,-3).", ";
-			}else{
-				$query .= "a.$name, ";
-			}
-		}
-		### Add extra joins if applicable
-		if( !empty($extraJoin) ) {
-            $query = str_replace($extraJoin['after'],$extraJoin['after'].$extraJoin['select'],$query);
-            $from .= $extraJoin['joins'];
-            $query = substr($query,0,-2).$from.$where. $extraJoin['groupby'] . " order by 1 desc limit 1500";
-		} else {
-             $query=substr($query,0,-2).$from.$where." order by 1 desc limit 1500";
-        }
-		if($_SESSION["debug"]) echo("<p>Debug Smart $query</p>\n");
-		$this->query($query);
-	}
-	
-	
-	
-	
-	
-	
-	
 
 	// Replaces the need for several lines in any page using an indicator table - defaults for Africa
 	public function indicators($table="af_indicator",$where="Source_ID=2",$start_row=1) { // set up standard disaggregated indicators
@@ -399,10 +328,10 @@ class Table { // These are public for now but may eventually be private with set
 	private function putrow($row,$href) {
 		echo("<tr>");
 		$ncols=sizeof($row);
-		$i1=0;
+		$i1=($this->hidelink ? 1 : 0);
 		if($href) {
-			echo("<td><a href=$href".$row[0].">".$row[0]."</td>");
-			$i1=1;
+			echo("<td><a href=$href".$row[0].">".$row[$i1]."</td>");
+			$i1++;
 		}
 		for($i=$i1;$i<$ncols;$i++) echo("<td>".$row[$i]."</td>");
 		echo("</tr>");
@@ -438,56 +367,7 @@ class Table { // These are public for now but may eventually be private with set
 
 		foreach($this->contents as $i => $row) if($i) $this->putrow($row,$href);
 		echo("</tbody>\n");
-/*
-		for($i=1;$i<$nrows;$i++) {
-			$row=$this->contents[$i]; // take the next row in line
-			if($ngroups>0) { // output a bar based on column zero if requested
-				$g=$row[0];
-				if($g>$group) {
-					$group=$g;
-					echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
-				}
-			}
-			$ntag=($this->hidelink ? $nstart-1 : $nstart);
-			$tag=$row[$ntag] ?? NULL; // if there is an id here, this is it
-			$class=$this->classes[$tag] ?? ""; // is there a special class definition for this row?
-			if($class) $class=" class=$class";
-			echo("<tr$class>"); // Start outputing rows
-			// Here is where all the variability comes in
-			// if there are rowspans we send out the that many columns only at start of a rowspan group
-			$ri=$rowspan[$i] ?? 0;
-			if( ($nrowspan==0) or $ri){ // do we output the first bits of this row or not?
-				$rs=($rowspan[$i]>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
-				if($ninforow) { // Does the row include an info icon?
-					$info="";
-					$rr=$row[$nstart] ?? 0;
-					if($rr) $rri=$this->inforow($rr);
-					if($rri) $info=$this->info($rri);
-				} 
-				if($href>'') {
-					echo("<td$rs><a href='".$href.$row[$ntag]."'>".$info.$row[$nstart]."</a></td>"); // a link?
-				} else {
-					echo("<td$rs>".$info.$row[$nstart]."</td>");
-				} // or no link
-				// are there more columns within the rowspan?
-				if($nrowspan>1) for($j=$nstart+1;$j<($nstart+$nrowspan);$j++) echo("<td$rs>$row[$j]</td>");
-			}
-			$nstart2=($rowspan>1 ? $nstart+$nrowspan : $nstart+1);
-			$zeros=".00000000";
-	        for($j=$nstart2;$j<$ncols;$j++) {
-				$v=$row[$j];
-				$dp=(strpos($v,'.') ? $this->dpoints : 0);
-				if ( is_numeric($v) and ($j>=($this->ntext)) ) $v=number_format($v,$dp);
-				if( ($j==$this->rowspan2) and ($rowspan[$i]>0)) {
-					echo("<td$rs>$v</td>");
-				} elseif($j<>$this->rowspan2) {
-					echo("<td>$v</td>");
-				}
-			} // end j
-			echo("</tr>\n");
-		} // end i
-		echo("</tbody>\n");
-*/
+
 	// for datatables, add a footer
 		if($_SESSION["datatable"]) {
 			echo("<tfoot><tr>");

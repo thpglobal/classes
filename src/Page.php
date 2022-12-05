@@ -74,7 +74,7 @@ class Page {
 	}
 
 	public function start($title="THP",$lang="en"){
-		$reply=( array_key_exists("reply",$_COOKIE) ? $_COOKIE["reply"] : '');
+		$reply=$_COOKIE["reply"] ?? '';
 		setcookie("reply","",0,'/');
 		$_SESSION["datatable"]=$this->datatable; // save for access by Table class
 		foreach($_GET as $key=>$value) $_SESSION[$key]=$value;

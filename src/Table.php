@@ -449,18 +449,18 @@ class Table { // These are public for now but may eventually be private with set
 				}
 			}
 			$ntag=($this->hidelink ? $nstart-1 : $nstart);
-			$tag=(array_key_exists($ntag,$row) ? $row[$ntag] : NULL); // if there is an id here, this is it
-			$class=(array_key_exists($tag,$this->classes) ? $this->classes[$tag] : ""); // is there a special class definition for this row?
+			$tag=$row[$ntag] ?? NULL; // if there is an id here, this is it
+			$class=$this->classes[$tag] ?? ""; // is there a special class definition for this row?
 			if($class) $class=" class=$class";
 			echo("<tr$class>"); // Start outputing rows
 			// Here is where all the variability comes in
 			// if there are rowspans we send out the that many columns only at start of a rowspan group
-			$ri=(array_key_exists($i,$rowspan) ? $rowspan[$i] : 0);
+			$ri=$rowspan[$i] ?? 0;
 			if( ($nrowspan==0) or $ri){ // do we output the first bits of this row or not?
 				$rs=($rowspan[$i]>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
 				if($ninforow) { // Does the row include an info icon?
 					$info="";
-					$rr=(array_key_exists($nstart,$row) ? $row[$nstart] : "");
+					$rr=$row[$nstart] ?? 0;
 					if($rr) $rri=$this->inforow($rr);
 					if($rri) $info=$this->info($rri);
 				} 

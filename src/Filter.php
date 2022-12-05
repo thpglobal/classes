@@ -26,7 +26,7 @@ class Filter {
         echo("</div>\n");
     }
 	private function now($name) { // common first steps for all filter - returns default value
-		$now=(boolval($_COOKIE[$name]??FALSE)) ? $_COOKIE[$name] : '');
+		$now=$_COOKIE[$name] ?? 0;
 		echo "\n<form class='pure-form pure-u-1 pure-u-md-1-".$this->width."'>\n" .
 		"<!-- $name now=$now -->\n" .
 		"<div class='form-group'><label for='$name'>".ucfirst($name).":&nbsp;</label>" ;
@@ -54,7 +54,7 @@ class Filter {
 	}
 	/* switch version of the toggle, shows both on/off labels */
 	public function switchToggle($name,$on_msg='On',$off_msg='Off'){
-		$now=(array_key_exists($name,$_COOKIE) ? $_COOKIE[$name] : '');
+		$now=$_COOKIE[$name] ?? 'off';
 		if($now<>'off') $now='on';
 		$then=($now=='on' ? 'off' : 'on');
 		echo("<div class='pure-u-1 pure-u-md-1-4'>$name: ". ($this->showOffLabel ? $off_msg : '') .

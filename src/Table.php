@@ -60,7 +60,6 @@ class Table { // These are public for now but may eventually be private with set
 		while($row = $pdo_stmt->fetch(3)) $this->contents[]=$row;
 	}
 	public function column($id_col,$dest_col,$array){
-		if($_SESSION["debug"]) {echo("<p>Column:"); print_r($array); echo("</p>\n");}
 		if(sizeof($this->backmap)==0) $this->backmap($id_col);
 		foreach( (array) $array as $key=>$value){
 			$j=substr($key,-1); // Get the digit after the_
@@ -78,14 +77,11 @@ class Table { // These are public for now but may eventually be private with set
 	public function map_query($id_col,$dest_col,$query) {
 		// This will map multiple columns directly from the array
 		if(sizeof($this->backmap)==0) $this->backmap($id_col);
-		if($_SESSION["debug"]) echo("<p>Backmap".print_r($this->backmap,TRUE)."</p>\n");
-		if($_SESSION["debug"]) echo("<p>Map Query $query</p>\n");
 		$pdo_stmt=$this->db->query($query);
 		$nrows=sizeof($this->contents);
 		while($row = $pdo_stmt->fetch(3)) {
 			$n=sizeof($row);
 			$i=$this->backmap[$row[0]]; // into which row do we plant this?
-			if($_SESSION["debug"]) echo("<p>Map n $n i $i ".print_r($row,TRUE)."</p>\n");
 			if($i>0 and $i<$nrows) {
 				for($j=1;$j<$n;$j++) $this->contents[$i][$j+$dest_col-1]=$row[$j];
 			}else{$this->errormsg.="<br>Map_query error:".print_r($row,TRUE);}
@@ -122,7 +118,6 @@ class Table { // These are public for now but may eventually be private with set
 				$this->backmap[$id]=$i;
 			}
 		}
-		if($_SESSION["debug"]) {echo("<p>Backmap:");print_r($this->backmap);echo("</p>\n");}
 	}
     public function row($row){
         $this->contents[]=$row;
@@ -208,7 +203,6 @@ class Table { // These are public for now but may eventually be private with set
 		if($where>"") $whereclause.=$where;
 		if($where>"" and $yearclause>"") $yearclause=" and $yearclause";
 		$query=substr($query,0,-2).$from.$whereclause.$yearclause." order by 1 desc limit 1500";
-		if($_SESSION["debug"]) echo("<p>Debug Smart $query</p>\n");
 		$this->query($query);
 	}
 
@@ -244,7 +238,6 @@ class Table { // These are public for now but may eventually be private with set
 		// it now also fills the backmap array
 		if(!($result=$this->db->query($query))) Die($query);
 		while($row=$result->fetch(3)){ // fold each row into rowspan rows
-//			if($_SESSION["debug"]) {echo("<p>Debug pivot $ni");print_r($row);echo("</p>\n");}
 			$n=$row[$ni]; // rowspan
 			for($i=1;$i<=$n;$i++){
 				$line=array(); // first, empty it
@@ -253,7 +246,6 @@ class Table { // These are public for now but may eventually be private with set
 				$this->row($line);
 			}
 			$sump=$row[$ni+1]; // Do we sum anything for this indicator?
-			if($_SESSION["debug"]) echo("<p>Above loop $nsums $sump ".$row[$ni+3]."</p>\n");
 			if($nsums and (($sump>0) or ($sump<0))){ // do we add summing rows?
 				$label=$row[$ni+3]; // L8 is the label for the sum
 				if($label=="") $label="Total # participants";
@@ -268,7 +260,6 @@ class Table { // These are public for now but may eventually be private with set
 					}
 					$line[]=$participants; // append to line
 				}
-				if($_SESSION["debug"]) print_r($line);
 				$this->row($line); // append to grid
 				$sumw=$row[$ni+2];
 				if($sumw>0) { // sum up number of workshop for SumW>0

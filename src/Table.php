@@ -386,7 +386,7 @@ public function show($href=''){ // experimental version
 		$nstart2=($rowspan>1 ? $nstart+$nrowspan : $nstart+1);
 		$zeros=".00000000";
 		for($j=$nstart2;$j<$ncols;$j++) {
-			$v=$row[$j];
+			$v=$row[$j]??'';
 			$dp=(strpos($v,'.') ? $this->dpoints : 0);
 			if ( is_numeric($v) and ($j>=($this->ntext)) ) $v=number_format($v,$dp);
 			if( ($j==$this->rowspan2) and ($rowspan[$i]>0)) {

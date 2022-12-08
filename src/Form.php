@@ -100,7 +100,6 @@ class Form {
 		echo("<input type=hidden name='$name' value='$value'>\n");
 	}
 	public function pairs($name,$array,$required=0){
-	if($_COOKIE["debug"]) echo("<p>$name=>".$this->data["name"]."</p>\n");
         $requiredAttr=($required) ? ' required ' : '';
         //HtML5 requires required value to be empty (not zero) for validation
         $requiredVal=($required) ? '' : 0;
@@ -145,7 +144,7 @@ class Form {
 				$this->hide($name,strtolower($_SERVER["USER_EMAIL"]));
 			}elseif(substr($name,-3)=="_ID"){
 				$subtable=strtolower(substr($name,0,-3));
-				$where=$this->where[$name];
+				$where=$this->where[$name]??'';
 				echo("\n<!-- where $where -->\n");
 				$this->query($name,"select id,name from $subtable $where order by 2");
 			}elseif($type=="TINY") {

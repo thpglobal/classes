@@ -344,7 +344,7 @@ public function show($href=''){ // experimental version
 	// If we're doing rowspan, set up the array
 	if($nrowspan) { // note rowspan here is a local array
 		$first="";
-		$r=1; // keep your finger on first row in group
+		$r=1; $rowspan[$r]=0; // keep your finger on first row in group
 		for($i=1;$i<$nrows;$i++){
 			if($this->contents[$i][$nstart]==$first){
 				$rowspan[$r]++; $rowspan[$i]=0;
@@ -373,8 +373,8 @@ public function show($href=''){ // experimental version
 		// Here is where all the variability comes in
 		// if there are rowspans we send out the that many columns only at start of a rowspan group
 		if( ($nrowspan==0) or ($rowspan[$i]>0)){ // do we output the first bits of this row or not?
-			$rs=($rowspan[$i]>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
-			if($ninforow>0) $info=$this->info($this->inforow[$row[$nstart]]); // Does the row include an info icon?
+			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
+			if($ninforow>0) $info=$this->info($this->inforow[$row[$nstart]])??''; // Does the row include an info icon?
 			if($href>'') {
 				echo("<td$rs><a href='".$href.$row[$ntag]."'>".$info.$row[$nstart]."</a></td>"); // a link?
 			} else { 
@@ -383,7 +383,7 @@ public function show($href=''){ // experimental version
 			// are there more columns within the rowspan?
 			if($nrowspan>1) for($j=$nstart+1;$j<($nstart+$nrowspan);$j++) echo("<td$rs>$row[$j]</td>");
 		}
-		$nstart2=($rowspan>1 ? $nstart+$nrowspan : $nstart+1);
+		$nstart2=(($rowspan??1)>1 ? $nstart+$nrowspan : $nstart+1);
 		$zeros=".00000000";
 		for($j=$nstart2;$j<$ncols;$j++) {
 			$v=$row[$j]??'';

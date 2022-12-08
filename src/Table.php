@@ -377,7 +377,7 @@ public function show($href=''){ // experimental version
 			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
 			if($ninforow>0) $info=$this->info($this->inforow[$row[$nstart]])??''; // Does the row include an info icon?
 			if($href>'') {
-				echo("<td$rs><a href='".$href.$row[$ntag]."'>".$info.$row[$nstart]."</a></td>"); // a link?
+				echo("<td$rs><a href='".$href.$row[$ntag]."'>".($info??'').$row[$nstart]."</a></td>"); // a link?
 			} else { 
 				echo("<td$rs>".$info.$row[$nstart]."</td>");
 			} // or no link

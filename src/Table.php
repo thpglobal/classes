@@ -1,6 +1,6 @@
 <?php
 namespace Thpglobal\Classes;
-//
+///
 class Table { // These are public for now but may eventually be private with setters
 	protected $db; // database connection
 	public $contents=array(array()); // main 2d array

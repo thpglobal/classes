@@ -1,7 +1,6 @@
 <?php
 // GENERIC UPDATE
 // This is called from various EDIT pages
-require_once($_SERVER["DOCUMENT_ROOT"]."/includes/thpsecurity.php");
 if($_COOKIE["debug"]) {
 	echo("<html lang=en><head><meta charset='utf-8'></head><body><h1>Debug Update</h1>\n");
 	echo("Post:<pre>".print_r($_POST,TRUE)."</pre>\n");

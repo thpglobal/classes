@@ -1,6 +1,5 @@
 <?php
 // SMART GENERIC LIST - OOP Version - Show the individual records from any report
-require(__DIR__."/../classes/thp_classes.php"); // Load the classes
 $table=$_GET["table"];
 setcookie("back","/list?table=$table");
 $page=new \Thpglobal\Classes\Page;

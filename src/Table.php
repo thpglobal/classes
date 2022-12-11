@@ -365,7 +365,7 @@ public function show($href=''){ // experimental version
 	$this->thead($nstart);
 	// now output all the regular rows
 	for($i=1;$i<$nrows;$i++) {
-		$row=$this->contents[$i]??$empty_row; // take the next row in line
+		$row=$this->contents[$i]??[]; // take the next row in line
 		if($ngroups>0) { // output a bar based on column zero if requested
 			$g=$row[0];
 			if($g>$group) {

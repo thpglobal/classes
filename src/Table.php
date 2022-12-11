@@ -348,10 +348,13 @@ public function show($href=''){ // experimental version
 		$first="";
 		$r=1; $rowspan[$r]=0; // keep your finger on first row in group
 		for($i=1;$i<$nrows;$i++){
-			if($this->contents[$i][$nstart]==$first){
-				$rowspan[$r]++; $rowspan[$i]=0;
+			if($this->contents[$i][$nstart]??0==$first){
+				$rowspan[$r]++; 
+				$rowspan[$i]=0;
 			}else{
-				$r=$i; $first=$this->contents[$r][$nstart]; $rowspan[$r]=1;
+				$r=$i; 
+				$first=$this->contents[$r][$nstart]; 
+				$rowspan[$r]=1;
 			}
 		}
 	}

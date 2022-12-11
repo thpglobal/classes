@@ -72,7 +72,8 @@ class Table { // These are public for now but may eventually be private with set
 		if(sizeof($this->backmap)==0) $this->backmap($id_col);
 		foreach( (array) $array as $key=>$value) {
 			$map=str_replace("_",".",$key);
-			if($this->backmap[$map]) $this->contents[$this->backmap[$map]][$dest_col]=$value;
+			if(array_key_exists($map,$this->backmap))
+				$this->contents[$this->backmap[$map]][$dest_col]=$value;
 		}
 	}
 	public function map_query($id_col,$dest_col,$query) {

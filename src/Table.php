@@ -18,6 +18,7 @@ class Table { // These are public for now but may eventually be private with set
 	public $classes=array(); // Used for specially coloring of rows
 	public $href="";
 	public $dpoints=0; // Decimal points
+	public $rowspan2=0; // Note fields need a rowspan mid-row for studies etc.
 	public function start($db){
 		$this->db=$db;
 	}
@@ -121,7 +122,7 @@ class Table { // These are public for now but may eventually be private with set
 			}
 		}
 	}
-    public function row($row){
+    public function row($row){ // append array to contents
         $this->contents[]=$row;
     }
 	public function ntext($n=1){ // set the number of text columns
@@ -312,65 +313,33 @@ class Table { // These are public for now but may eventually be private with set
 		}
 		echo("</tr>\n</thead>\n<tbody>\n");
 	}
-	
-	// SHOW THE TABLE - Including the id column on hrefs, but do skip the groups column
-	// Discovered a big problem - foreach doesn't go in order! Yikes!
-	
-	public $rowspan2=0; // Notes fields need a rowspan mid-row for studies etc.
 
-	private function putrow($row,$href) {
-		echo("<tr>");
-		$ncols=sizeof($row);
-		$i1=($this->hidelink ? 1 : 0);
-		if($href) {
-			echo("<td><a href=$href".$row[0].">".$row[$i1]."</td>");
-			$i1++;
-		}
-		for($i=$i1;$i<$ncols;$i++) echo("<td>".$row[$i]."</td>");
-		echo("</tr>");
-	}
-	
-// jump back to the old complicated one for a test
-
-
-public function show($href=''){ // experimental version
-	// Set parameters appropriate to various options
-	$ngroups=sizeof($this->groups)??0; // Option to group rows with subheaders
-	$ninforow=sizeof($this->inforow); // Option to show info symbols at start of row
-	$nclasses=sizeof($this->classes); // Are there special row colors?
-	$nstart=($ngroups>0 ? 1 : 0); // If groups, then don't display col 0
-	if($this->hidelink) $nstart++;
-	$group=0; // default indicator of what group we are in.
-	$nrows=sizeof($this->contents);
-	$ncols=sizeof($this->contents[0]);
-	// create an empty row as default
-	$nrowspan=$this->rowspan;
-	$rowspan=[]; // If we're doing rowspan, set up the array, else default
-	if($nrowspan) { // note rowspan here is a local array
-		$first="";
-		$r=1; $rowspan[$r]=0; // keep your finger on first row in group
-		for($i=1;$i<$nrows;$i++){
-			if($this->contents[$i][$nstart]??0==$first){
-				$rowspan[$r]++; 
-				$rowspan[$i]=0;
-			}else{
-				$r=$i; 
-				$first=$this->contents[$r][$nstart]??""; 
-				$rowspan[$r]=1;
+	// jump back to the old complicated one for a test
+	private function create_rowspan($nrowspan=0,$nstart=0 ){
+		$rowspan=[]; // If we're doing rowspan, set up the array, else default
+		if($nrowspan) { // note rowspan here is a local array
+			$first="";
+			$r=1; $rowspan[$r]=0; // keep your finger on first row in group
+			for($i=1;$i<$nrows;$i++){
+				if($this->contents[$i][$nstart]??0==$first){
+					$rowspan[$r]++; 
+					$rowspan[$i]=0;
+				}else{
+					$r=$i; 
+					$first=$this->contents[$r][$nstart]??""; 
+					$rowspan[$r]=1;
+				}
 			}
 		}
+		return $rowspan;
 	}
-	// output the header
-	$this->thead($nstart);
-	// now output all the regular rows
-	for($i=1;$i<$nrows;$i++) {
-		$row=$this->contents[$i]; // take the next row in line
-		$g=$row[0]??0;
-		if($g>$group) {
-			$group=$g;
-			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
-		}
-		
+
+	private function putcell($val){ // output a single cell in various formats
+
+
+	}
+
+	private function putrow($i,$href='',$nstart=0) { // more code out of show
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);
 		$tag=$row[$ntag]; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
@@ -378,7 +347,7 @@ public function show($href=''){ // experimental version
 		echo("<tr$class>"); // Start outputing rows
 		// Here is where all the variability comes in
 		// if there are rowspans we send out the that many columns only at start of a rowspan group
-		if( ($nrowspan==0) or ($rowspan[$i]>0)){
+		if( ($nrowspan==0) or ($rowspan[$i]??0)){
 			$info=''; // do we output the first bits of this row or not?
 			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
 			if($ninforow>0) $info=$this->info($this->inforow[$row[$nstart]])??''; // Does the row include an info icon?
@@ -403,9 +372,35 @@ public function show($href=''){ // experimental version
 			}
 		} // end j
 		echo("</tr>\n");
+	}
+	
+// SHOW THE TABLE - Including the id column on hrefs, but do skip the groups column
+
+public function show($href=''){ // experimental version
+	// Set parameters appropriate to various options
+	$ngroups=sizeof($this->groups)??0; // Option to group rows with subheaders
+	$ninforow=sizeof($this->inforow)??0; // Option to show info symbols at start of row
+	$nclasses=sizeof($this->classes)??0; // Are there special row colors?
+	$nstart=($ngroups ? 1 : 0); // If groups, then don't display col 0
+	if($this->hidelink) $nstart++;
+	$group=0; // default indicator of what group we are in.
+	$nrows=sizeof($this->contents);
+	$ncols=sizeof($this->contents[0]);
+	$nrowspan=$this->rowspan;
+	$rowspan=$this->create_rowspan($nrowspan);
+	// output the header
+	$this->thead($nstart);
+	// now output all the regular rows
+	for($i=1;$i<$nrows;$i++) {
+		$row=$this->contents[$i]; // take the next row in line
+		$g=$row[0]??0;
+		if($g>$group) { // insert group header
+			$group=$g;
+			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
+		}
+		$this->putrow($i,$href);
 	} // end i
 	echo("</tbody>\n");
-
 	// for datatables, add a footer
 	if($_SESSION["datatable"]) {
 		echo("<tfoot><tr>");

@@ -332,19 +332,20 @@ class Table { // These are public for now but may eventually be private with set
 	
 // jump back to the old complicated one for a test
 
+
 public function show($href=''){ // experimental version
 	// Set parameters appropriate to various options
-	$ngroups=sizeof($this->groups); // Option to group rows with subheaders
+	$ngroups=sizeof($this->groups)??0; // Option to group rows with subheaders
 	$ninforow=sizeof($this->inforow); // Option to show info symbols at start of row
 	$nclasses=sizeof($this->classes); // Are there special row colors?
 	$nstart=($ngroups>0 ? 1 : 0); // If groups, then don't display col 0
 	if($this->hidelink) $nstart++;
-	$group=-99;
+	$group=0; // default indicator of what group we are in.
 	$nrows=sizeof($this->contents);
 	$ncols=sizeof($this->contents[0]);
 	// create an empty row as default
 	$nrowspan=$this->rowspan;
-	// If we're doing rowspan, set up the array
+	$rowspan=[]; // If we're doing rowspan, set up the array, else default
 	if($nrowspan) { // note rowspan here is a local array
 		$first="";
 		$r=1; $rowspan[$r]=0; // keep your finger on first row in group
@@ -364,13 +365,12 @@ public function show($href=''){ // experimental version
 	// now output all the regular rows
 	for($i=1;$i<$nrows;$i++) {
 		$row=$this->contents[$i]; // take the next row in line
-		if($ngroups>0) { // output a bar based on column zero if requested
-			$g=$row[0];
-			if($g>$group) {
-				$group=$g;
-				echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
-			}
+		$g=$row[0]??0;
+		if($g>$group) {
+			$group=$g;
+			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
 		}
+		
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);
 		$tag=$row[$ntag]; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
@@ -405,7 +405,8 @@ public function show($href=''){ // experimental version
 		echo("</tr>\n");
 	} // end i
 	echo("</tbody>\n");
-// for datatables, add a footer
+
+	// for datatables, add a footer
 	if($_SESSION["datatable"]) {
 		echo("<tfoot><tr>");
 		for($j=$nstart; $j<$ncols; $j++) echo("<th>".$this->contents[0][$j]."</th>");
@@ -416,49 +417,9 @@ public function show($href=''){ // experimental version
 }
 
 
-// below is the simpler one
 
-	public function showx($href=''){ // experimental version
-        // Set parameters appropriate to various options
-	    $ngroups=sizeof($this->groups); // Option to group rows with subheaders
-	    $ninforow=sizeof($this->inforow); // Option to show info symbols at start of row
-		$nclasses=sizeof($this->classes); // Are there special row colors?
-	    $nstart=($ngroups>0 ? 1 : 0); // If groups, then don't display col 0
-		if($this->hidelink) $nstart++;
-	    $group=-99;
-		$nrows=sizeof($this->contents);
-	    $ncols=sizeof($this->contents[0]);
-		$nrowspan=$this->rowspan;
-		$rowspan=[]; // set up local associative array
-		// If we're doing rowspan, set up the array
-		if($nrowspan) { // note rowspan here is a local array
-			$first="";
-			$r=1; // keep your finger on first row in group
-			for($i=1;$i<$nrows;$i++){
-				if($this->contents[$i][$nstart]==$first){
-					$rowspan[$r]++; $rowspan[$i]=0;
-				}else{
-					$r=$i; $first=$this->contents[$r][$nstart]; $rowspan[$r]=1;
-				}
-			}
-		}
-		// output the header and then tbody tag
-		$this->thead($nstart);
-		// now output all the regular rows
 
-		foreach($this->contents as $i => $row) if($i) $this->putrow($row,$href);
-		echo("</tbody>\n");
-
-	// for datatables, add a footer
-		if($_SESSION["datatable"]) {
-			echo("<tfoot><tr>");
-			for($j=$nstart; $j<$ncols; $j++) echo("<th>".$this->contents[0][$j]."</th>");
-			echo("</tr></tfoot>\n");
-		}
-		echo("</table>\n");
-		$_SESSION["contents"]=$this->contents;
-	}
-	// SHOW THE TABLE with colors in different cells
+// SHOW THE TABLE with colors in different cells
 	// Used for the Audit pages, can be optimized later
 	// to take colorColumns as parameter
 	public function showColor($href=''){

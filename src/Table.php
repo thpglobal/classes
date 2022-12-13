@@ -127,6 +127,8 @@ class Table { // These are public for now but may eventually be private with set
 	}
     public function row($row){ // append array to contents
         $this->contents[]=$row;
+		debug("Row",$row);
+		debug("Size",sizeof($this->contents));
     }
 	public function ntext($n=1){ // set the number of text columns
 		$this->ntext=$n;
@@ -271,7 +273,7 @@ class Table { // These are public for now but may eventually be private with set
 				debug("Line-b",$line);
 
 				$sumw=$row[$ni+2]??0;
-				if($sumw>0) { // sum up number of workshop for SumW>0
+				if($sumw) { // sum up number of workshop for SumW>0
 					for($j=0;$j<$ni;$j++) $line[$j]=$row[$j];
 					$line[$ni]="Total # workshops";
 					for($j=1;$j<$nc;$j++) { // loop through columns to be summed

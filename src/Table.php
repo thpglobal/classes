@@ -68,7 +68,7 @@ class Table { // These are public for now but may eventually be private with set
 			$id=substr($key,0,-2); // Get the indicator name before the _
 			if(array_key_exists($id,$this->backmap)) {
 				$this->contents[$this->backmap[$id]+$j-1][$dest_col]=$value;
-				if($_COOKIE["debug"]) echo("<p>$j $id $value</p>\n")
+				if($_COOKIE["debug"]) echo("<p>$j $id $value</p>\n");
 			}
 		}
 	}

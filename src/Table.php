@@ -127,8 +127,8 @@ class Table { // These are public for now but may eventually be private with set
 	}
     public function row($row){ // append array to contents
         $this->contents[]=$row;
-		debug("Row",$row);
-		debug("Size",sizeof($this->contents));
+//		debug("Row",$row);
+//		debug("Size",sizeof($this->contents));
     }
 	public function ntext($n=1){ // set the number of text columns
 		$this->ntext=$n;
@@ -252,7 +252,7 @@ class Table { // These are public for now but may eventually be private with set
 				for($j=0;$j<$ni;$j++) $line[$j]=$row[$j]; // set up the pre-fold columns
 				for($j=0;$j<$nc;$j++) $line[$ni+$j]=$row[$ni+$nsums+$i+($nd*$j)]; // number of disaggregated columns
 				$this->row($line);
-				debug("Line-a",$line);
+//				debug("Line-a",$line);
 			}
 			$sump=$row[$ni+1]??0; // Do we sum anything for this indicator?
 			if($nsums and (($sump>0) or ($sump<0))){ // do we add summing rows?
@@ -270,7 +270,7 @@ class Table { // These are public for now but may eventually be private with set
 					$line[]=$participants; // append to line
 				}
 				$this->row($line); // append to grid
-				debug("Line-b",$line);
+//				debug("Line-b",$line);
 
 				$sumw=$row[$ni+2]??0;
 				if($sumw) { // sum up number of workshop for SumW>0
@@ -282,7 +282,7 @@ class Table { // These are public for now but may eventually be private with set
 						$line[]=$workshops;
 					}
 					$this->row($line); // append to grid
-					debug("Line-c",$line);
+//					debug("Line-c",$line);
 				}
 			}
 		}
@@ -343,7 +343,7 @@ class Table { // These are public for now but may eventually be private with set
 		return $rowspan;
 	}
 
-	private function putrow($row,$href='',$nstart=0) { // more code out of show
+	private function putrow($row,$href='',$nstart=0,$nrowspan=0,$rowspan=[]) { // more code out of show
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);
 		$tag=$row[$ntag]; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
@@ -402,7 +402,7 @@ public function show($href=''){ // experimental version
 			$group=$g;
 			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
 		}
-		$this->putrow($row,$href,$nstart);
+		$this->putrow($row,$href,$nstart,$nrowspan,$rowspan);
 	} // end i
 	echo("</tbody>\n");
 	// for datatables, add a footer

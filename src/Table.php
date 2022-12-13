@@ -334,12 +334,7 @@ class Table { // These are public for now but may eventually be private with set
 		return $rowspan;
 	}
 
-	private function putcell($val){ // output a single cell in various formats
-
-
-	}
-
-	private function putrow($i,$href='',$nstart=0) { // more code out of show
+	private function putrow($row,$href='',$nstart=0) { // more code out of show
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);
 		$tag=$row[$ntag]; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
@@ -398,7 +393,7 @@ public function show($href=''){ // experimental version
 			$group=$g;
 			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
 		}
-		$this->putrow($i,$href);
+		$this->putrow($row,$href,$nstart);
 	} // end i
 	echo("</tbody>\n");
 	// for datatables, add a footer

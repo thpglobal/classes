@@ -342,6 +342,11 @@ class Table { // These are public for now but may eventually be private with set
 		}
 		return $rowspan;
 	}
+	private function putrow_simple($row){ //debug version
+		echo("<tr>");
+		foreach($row as $cell) echo("<td>$cell</td>");
+		echo("</tr>\n");
+	}
 
 	private function putrow($row,$href='',$nstart=0,$nrowspan=0,$rowspan=[]) { // more code out of show
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);
@@ -351,8 +356,6 @@ class Table { // These are public for now but may eventually be private with set
 		echo("<tr$class>"); // Start outputing rows
 		// Here is where all the variability comes in
 		// if there are rowspans we send out the that many columns only at start of a rowspan group
-		debug("Row",$row);
-		debug("Rowspan",$rowspan);
 		if( ($nrowspan==0) or ($rowspan[$i]??0)){
 			$info=''; // do we output the first bits of this row or not?
 			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
@@ -394,6 +397,7 @@ public function show($href=''){ // experimental version
 	$ncols=sizeof($this->contents[0]);
 	$nrowspan=$this->rowspan;
 	$rowspan=$this->create_rowspan($nrowspan);
+	debug("Rowpan",$rowspan);
 	// output the header
 	$this->thead($nstart);
 	// now output all the regular rows
@@ -404,7 +408,8 @@ public function show($href=''){ // experimental version
 			$group=$g;
 			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
 		}
-		$this->putrow($row,$href,$nstart,$nrowspan,$rowspan);
+		$this->putrow_simple($row);
+		//		$this->putrow($row,$href,$nstart,$nrowspan,$rowspan);
 	} // end i
 	echo("</tbody>\n");
 	// for datatables, add a footer

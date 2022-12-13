@@ -342,13 +342,10 @@ class Table { // These are public for now but may eventually be private with set
 		}
 		return $rowspan;
 	}
-	private function putrow_simple($row){ //debug version
-		echo("<tr>");
-		foreach($row as $cell) echo("<td>$cell</td>");
-		echo("</tr>\n");
-	}
 
-	private function putrow($row,$href='',$nstart=0,$nrowspan=0,$rowspan=[]) { // more code out of show
+	private function putrow($row,$href='',$nstart=0,$nrowspan=0,$if_rowspan) { // more code out of show
+		$ninforow=sizeof($this->inforow)??0; // Option to show info symbols at start of row
+		$nclasses=sizeof($this->classes)??0; // Are there special row colors?	
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);
 		$tag=$row[$ntag]; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
@@ -356,7 +353,7 @@ class Table { // These are public for now but may eventually be private with set
 		echo("<tr$class>"); // Start outputing rows
 		// Here is where all the variability comes in
 		// if there are rowspans we send out the that many columns only at start of a rowspan group
-		if( ($nrowspan==0) or ($rowspan[$i]??0)){
+		if( $if_rowspan){
 			$info=''; // do we output the first bits of this row or not?
 			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
 			if($ninforow>0) $info=$this->info($this->inforow[$row[$nstart]])??''; // Does the row include an info icon?
@@ -388,13 +385,11 @@ class Table { // These are public for now but may eventually be private with set
 public function show($href=''){ // experimental version
 	// Set parameters appropriate to various options
 	$ngroups=sizeof($this->groups)??0; // Option to group rows with subheaders
-	$ninforow=sizeof($this->inforow)??0; // Option to show info symbols at start of row
-	$nclasses=sizeof($this->classes)??0; // Are there special row colors?
-	$nstart=($ngroups ? 1 : 0); // If groups, then don't display col 0
 	if($this->hidelink) $nstart++;
 	$group=0; // default indicator of what group we are in.
 	$nrows=sizeof($this->contents);
 	$ncols=sizeof($this->contents[0]);
+	$nstart=($ngroups ? 1 : 0); // If groups, then don't display col 0
 	$nrowspan=$this->rowspan;
 	$rowspan=$this->create_rowspan($nrowspan);
 	debug("Rowpan",$rowspan);
@@ -408,8 +403,7 @@ public function show($href=''){ // experimental version
 			$group=$g;
 			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
 		}
-		$this->putrow_simple($row);
-		//		$this->putrow($row,$href,$nstart,$nrowspan,$rowspan);
+		$this->putrow($row,$href,$nstart,$nrowspan,$rowspan[$i],$ninfo);
 	} // end i
 	echo("</tbody>\n");
 	// for datatables, add a footer

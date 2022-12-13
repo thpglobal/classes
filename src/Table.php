@@ -350,9 +350,12 @@ class Table { // These are public for now but may eventually be private with set
 		$tag=$row[$ntag]; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
 		if($class>'') $class=" class=$class";
+		$debugmsg="<td>start $nstart rs $nrowspan if $ifrowspan</td>";
 		echo("<tr$class>"); // Start outputing rows
 		// Here is where all the variability comes in
 		// if there are rowspans we send out the that many columns only at start of a rowspan group
+		debug("Putrow",$debugmsg);
+
 		if( $if_rowspan){
 			$info=''; // do we output the first bits of this row or not?
 			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?

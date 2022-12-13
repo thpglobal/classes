@@ -244,14 +244,15 @@ class Table { // These are public for now but may eventually be private with set
 		// it now also fills the backmap array
 		if(!($result=$this->db->query($query))) Die($query);
 		while($row=$result->fetch(3)){ // fold each row into rowspan rows
-			$n=$row[$ni]; // rowspan
+			$n=$row[$ni]??0; // rowspan
 			for($i=1;$i<=$n;$i++){
 				$line=array(); // first, empty it
 				for($j=0;$j<$ni;$j++) $line[$j]=$row[$j]; // set up the pre-fold columns
 				for($j=0;$j<$nc;$j++) $line[$ni+$j]=$row[$ni+$nsums+$i+($nd*$j)]; // number of disaggregated columns
 				$this->row($line);
+				debug("Line-a",$line);
 			}
-			$sump=$row[$ni+1]; // Do we sum anything for this indicator?
+			$sump=$row[$ni+1]??0; // Do we sum anything for this indicator?
 			if($nsums and (($sump>0) or ($sump<0))){ // do we add summing rows?
 				$label=$row[$ni+3]; // L8 is the label for the sum
 				if($label=="") $label="Total # participants";
@@ -267,7 +268,9 @@ class Table { // These are public for now but may eventually be private with set
 					$line[]=$participants; // append to line
 				}
 				$this->row($line); // append to grid
-				$sumw=$row[$ni+2];
+				debug("Line-b",$line);
+
+				$sumw=$row[$ni+2]??0;
 				if($sumw>0) { // sum up number of workshop for SumW>0
 					for($j=0;$j<$ni;$j++) $line[$j]=$row[$j];
 					$line[$ni]="Total # workshops";
@@ -277,6 +280,7 @@ class Table { // These are public for now but may eventually be private with set
 						$line[]=$workshops;
 					}
 					$this->row($line); // append to grid
+					debug("Line-c",$line);
 				}
 			}
 		}

@@ -351,6 +351,8 @@ class Table { // These are public for now but may eventually be private with set
 		echo("<tr$class>"); // Start outputing rows
 		// Here is where all the variability comes in
 		// if there are rowspans we send out the that many columns only at start of a rowspan group
+		debug("Row",$row);
+		debug("Rowspan",$rowspan);
 		if( ($nrowspan==0) or ($rowspan[$i]??0)){
 			$info=''; // do we output the first bits of this row or not?
 			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?

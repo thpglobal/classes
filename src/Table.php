@@ -340,8 +340,19 @@ class Table { // These are public for now but may eventually be private with set
 		}		
 		return $rowspans;
 	}
-
-	private function putrow($row,$href='',$nstart=0,$nrowspan=0,$if_rowspan) { // more code out of show
+	public function putcell($cell){
+		echo("<td>$cell</td>\n");
+	}
+	public function putrows_simple($j1=0){
+		// just show the whole grid with nothing fancy
+		$nrows=sizeof($this->contents);
+		for($i=1;$i<$nrows;$i++) {
+			echo("<tr>");
+			$row=$this->contents[$i];
+			for($j=$j1;$j<sizeof($row);$j++) $this->putcell($row[$j]);
+		}
+	}
+	public function putrow($row,$href='',$nstart=0,$nrowspan=0,$if_rowspan) { // more code out of show
 		$ninforow=sizeof($this->inforow)??0; // Option to show info symbols at start of row
 		$nclasses=sizeof($this->classes)??0; // Are there special row colors?	
 		$ntag=($this->hidelink ? $nstart-1 : $nstart);

@@ -327,9 +327,9 @@ class Table { // These are public for now but may eventually be private with set
 	public function create_rowspans($j1=0){
 		$rowspans=[];
 		$first="";
-		$nrows=sizeof($grid->contents);
+		$nrows=sizeof($this->contents);
 		for($i=1;$i<$nrows;$i++){
-			$iden=$grid->contents[$i][1];
+			$iden=$this->contents[$i][$j1];
 			$rowspans[$i]=1;
 			if($iden<>$first) {
 				$first=$iden;

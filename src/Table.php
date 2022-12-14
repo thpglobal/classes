@@ -324,7 +324,7 @@ class Table { // These are public for now but may eventually be private with set
 	}
 
 	// jump back to the old complicated one for a test
-	private function create_rowspans($nstart=0 ){
+	public function create_rowspans($nstart=0 ){
 		$rowspans=[]; // If we're doing rowspan, set up the array, else default
 		if($nrowspan) { // note rowspan here is a local array
 			$first="";

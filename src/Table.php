@@ -326,18 +326,16 @@ class Table { // These are public for now but may eventually be private with set
 	// jump back to the old complicated one for a test
 	public function create_rowspans($nstart=0 ){
 		$rowspans=[]; // If we're doing rowspan, set up the array, else default
-		if($nrowspan) { // note rowspan here is a local array
-			$first="";
-			$r=1; $rowspan[$r]=0; // keep your finger on first row in group
-			for($i=1;$i<$nrows;$i++){
-				if($this->contents[$i][$nstart]??0==$first){
-					$rowspans[$r]++; 
-					$rowspans[$i]=0;
-				}else{
-					$r=$i; 
-					$first=$this->contents[$r][$nstart]??""; 
-					$rowspans[$r]=1;
-				}
+		$first="";
+		$r=1; $rowspan[$r]=0; // keep your finger on first row in group
+		for($i=1;$i<$nrows;$i++){
+			if($this->contents[$i][$nstart]??0==$first){
+				$rowspans[$r]++; 
+				$rowspans[$i]=0;
+			}else{
+				$r=$i; 
+				$first=$this->contents[$r][$nstart]??""; 
+				$rowspans[$r]=1;
 			}
 		}
 		return $rowspans;

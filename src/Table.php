@@ -359,7 +359,7 @@ class Table { // These are public for now but may eventually be private with set
 	}
 
 	public function putrowspans($j1,$j2){
-		// just show the whole grid with nothing fancy
+		// properly handle groups and rowspans
 		$nrows=sizeof($this->contents);
 		$previous_group=0;
 		for($i=1;$i<$nrows;$i++) {
@@ -374,7 +374,7 @@ class Table { // These are public for now but may eventually be private with set
 				echo("<td rowspan=$rs>".$row[$j1]."</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}
-			for($j=$j2;$j<sizeof($row);$j++) putcell($row[$j]);
+			for($j=$j2;$j<sizeof($row);$j++) $this->putcell($row[$j]);
 			echo("<tr>");
 		}
 	}

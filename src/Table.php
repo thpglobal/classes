@@ -334,7 +334,7 @@ class Table { // These are public for now but may eventually be private with set
 				$rowspans[$i]=0;
 			}else{
 				$r=$i; 
-				$first=$this->contents[$r][$nstart]??""; 
+				$first=$this->contents[$r][$nstart]; 
 				$rowspans[$r]=1;
 			}
 		}

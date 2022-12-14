@@ -324,20 +324,20 @@ class Table { // These are public for now but may eventually be private with set
 	}
 
 	// jump back to the old complicated one for a test
-	public function create_rowspans($nstart=0 ){
-		$rowspans=[]; // If we're doing rowspan, set up the array, else default
+	public function create_rowspans($j1=0){
+		$rowspans=[];
 		$first="";
-		$r=1; $rowspan[$r]=0; // keep your finger on first row in group
+		$nrows=sizeof($grid->contents);
 		for($i=1;$i<$nrows;$i++){
-			if($this->contents[$i][$nstart]??0==$first){
-				$rowspans[$r]++; 
-				$rowspans[$i]=0;
-			}else{
-				$r=$i; 
-				$first=$this->contents[$r][$nstart]; 
-				$rowspans[$r]=1;
+			$iden=$grid->contents[$i][1];
+			$rowspans[$i]=1;
+			if($iden<>$first) {
+				$first=$iden;
+				$firstid=$i;
+			} else {
+				$rowspans[$firstid]++;
 			}
-		}
+		}		
 		return $rowspans;
 	}
 

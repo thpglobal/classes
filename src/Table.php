@@ -324,23 +324,23 @@ class Table { // These are public for now but may eventually be private with set
 	}
 
 	// jump back to the old complicated one for a test
-	private function create_rowspan($nrowspan=0,$nstart=0 ){
-		$rowspan=[]; // If we're doing rowspan, set up the array, else default
+	private function create_rowspans($nstart=0 ){
+		$rowspans=[]; // If we're doing rowspan, set up the array, else default
 		if($nrowspan) { // note rowspan here is a local array
 			$first="";
 			$r=1; $rowspan[$r]=0; // keep your finger on first row in group
 			for($i=1;$i<$nrows;$i++){
 				if($this->contents[$i][$nstart]??0==$first){
-					$rowspan[$r]++; 
-					$rowspan[$i]=0;
+					$rowspans[$r]++; 
+					$rowspans[$i]=0;
 				}else{
 					$r=$i; 
 					$first=$this->contents[$r][$nstart]??""; 
-					$rowspan[$r]=1;
+					$rowspans[$r]=1;
 				}
 			}
 		}
-		return $rowspan;
+		return $rowspans;
 	}
 
 	private function putrow($row,$href='',$nstart=0,$nrowspan=0,$if_rowspan) { // more code out of show
@@ -393,8 +393,9 @@ public function show($href=''){ // experimental version
 	$nrows=sizeof($this->contents);
 	$ncols=sizeof($this->contents[0]);
 	$nstart=($ngroups ? 1 : 0); // If groups, then don't display col 0
-	$nrowspan=$this->rowspan;
-	$rowspan=$this->create_rowspan($nrowspan);
+	$nrowspan=$this->rowspans;
+	$rowspans=[];
+	if($nrowspan) $rowspans=$this->create_rowspans($start);
 	debug("Rowpan",$rowspan);
 	// output the header
 	$this->thead($nstart);

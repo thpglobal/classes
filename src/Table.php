@@ -351,6 +351,13 @@ class Table { // These are public for now but may eventually be private with set
 			for($j=$j1;$j<sizeof($row);$j++) $this->putcell($row[$j]);
 		}
 	}
+
+	public function putgroup($group){
+		$groupname=$this->groups[$group]??'';
+		$width=sizeof($this->contents[0]);
+		if($groupname) echo("<tr><th colspan=$width>$group. $groupname</th></tr>")
+	}
+
 	public function putrowspans($j1,$j2){
 		// just show the whole grid with nothing fancy
 		$nrows=sizeof($this->contents);

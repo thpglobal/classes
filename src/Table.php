@@ -422,36 +422,16 @@ class Table { // These are public for now but may eventually be private with set
 
 public function show($href=''){ // experimental version
 	// Set parameters appropriate to various options
-	$ngroups=sizeof($this->groups)??0; // Option to group rows with subheaders
-	if($this->hidelink) $nstart++;
-	$group=0; // default indicator of what group we are in.
-	$nrows=sizeof($this->contents);
-	$ncols=sizeof($this->contents[0]);
-	$nstart=($ngroups ? 1 : 0); // If groups, then don't display col 0
-	$nrowspan=$this->rowspans;
-	$rowspans=[];
-	if($nrowspan) $rowspans=$this->create_rowspans($start);
-	debug("Rowpan",$rowspan);
-	// output the header
-	$this->thead($nstart);
-	// now output all the regular rows
-	for($i=1;$i<$nrows;$i++) {
-		$row=$this->contents[$i]; // take the next row in line
-		$g=$row[0]??0;
-		if($g>$group) { // insert group header
-			$group=$g;
-			echo("<tr><th colspan=".($ncols-1).">". (($this->showGroupID) ? "{$group}. " : '') .$this->groups[$group]."</th></tr>\n");
-		}
-		$this->putrow($row,$href,$nstart,$nrowspan,$rowspan[$i],$ninfo);
-	} // end i
-	echo("</tbody>\n");
-	// for datatables, add a footer
-	if($_SESSION["datatable"]) {
-		echo("<tfoot><tr>");
-		for($j=$nstart; $j<$ncols; $j++) echo("<th>".$this->contents[0][$j]."</th>");
-		echo("</tr></tfoot>\n");
+	$ngroups=sizeof($this->groups); // Option to group rows with subheaders
+	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
+	$this->thead;
+	if($this->rowspan) {
+		$this->create_rowspans($j1);
+		$this->putrowspans(1,3);
+	}else{
+		$this->putrows_simple();
 	}
-	echo("</table>\n");
+	echo("</tbody></table>");
 	$_SESSION["contents"]=$this->contents;
 }
 

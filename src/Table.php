@@ -7,6 +7,7 @@ class Table { // These are public for now but may eventually be private with set
 	public $hidelink=FALSE; // Option to put href on next column
 	public $rowspan=0; // If>0, then start rowspan with column this many columns
 	public $backmap=array(); // Create backpointers to the array after pivot
+	public $rowspans=array(); // >1 means start a rowspan
 	public $extra=array(); // extra headers
 	public $ntext=1; // number of columns to not be formatted
 	public $groups=array(); // headers
@@ -323,22 +324,20 @@ class Table { // These are public for now but may eventually be private with set
 		echo("</tr>\n</thead>\n<tbody>\n");
 	}
 
-	// jump back to the old complicated one for a test
+	// refactor rowspans to be part of the class
 	public function create_rowspans($j1=0){
-		$rowspans=[];
 		$first="";
 		$nrows=sizeof($this->contents);
 		for($i=1;$i<$nrows;$i++){
 			$iden=$this->contents[$i][$j1];
-			$rowspans[$i]=1;
+			$this->rowspans[$i]=1;
 			if($iden<>$first) {
 				$first=$iden;
 				$firstid=$i;
 			} else {
-				$rowspans[$firstid]++;
+				$this->rowspans[$firstid]++;
 			}
 		}		
-		return $rowspans;
 	}
 	public function putcell($cell){
 		echo("<td>$cell</td>\n");
@@ -350,6 +349,26 @@ class Table { // These are public for now but may eventually be private with set
 			echo("<tr>");
 			$row=$this->contents[$i];
 			for($j=$j1;$j<sizeof($row);$j++) $this->putcell($row[$j]);
+		}
+	}
+	public function putrowspans($j1,$j2){
+		// just show the whole grid with nothing fancy
+		$nrows=sizeof($this->contents);
+		$previous_group=0;
+		for($i=1;$i<$nrows;$i++) {
+			$row=$this->contents[$i];
+			$group=$row[$j1-1]??0;
+			if($group<>$previous_group) {
+				$previous_group=$group;
+				$this->putgroup($group);
+			}
+			$rs=$this->rowspans[$i];
+			if($rs>1) {
+				echo("<td rowspan=$rs>".$row[$j1]."</td>");
+				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
+			}
+			for($j=$j2;$j<sizeof($row);$j++) putcell($row[$j]);
+			echo("<tr>");
 		}
 	}
 	public function putrow($row,$href='',$nstart=0,$nrowspan=0,$if_rowspan) { // more code out of show

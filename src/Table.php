@@ -355,7 +355,17 @@ class Table { // These are public for now but may eventually be private with set
 		for($i=1;$i<$nrows;$i++) {
 			echo("<tr>");
 			$row=$this->contents[$i];
-			for($j=$j1;$j<sizeof($row);$j++) $this->putcell($row[$j],$j);
+			$j=$j1;
+			// if there is a link, combine the first two columns
+			if($this->href) {
+				echo('<td><a href="'.$href.$row[$j1].'">'.$row[$j1+1].'</tr>');
+				$j+=2;
+			}
+			while($j<sizeof($row)) {
+				$this->putcell($row[$j],$j);
+				$j++;
+			}
+			echo("</tr>\n");
 		}
 	}
 
@@ -437,6 +447,7 @@ public function show($href=''){ // experimental version
 	// Set parameters appropriate to various options
 	$ngroups=sizeof($this->groups); // Option to group rows with subheaders
 	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
+	$this->href=$href;
 	$this->thead($j1);
 	if($this->rowspan) {
 		$this->create_rowspans($j1);

@@ -358,7 +358,7 @@ class Table { // These are public for now but may eventually be private with set
 			$j=$j1;
 			// if there is a link, combine the first two columns
 			if($this->href) {
-				echo('<td><a href="'.$href.$row[$j1].'">'.$row[$j1+1].'</tr>');
+				echo('<td><a href="'.$href.$row[$j1].'">'.$row[$j1+1].'</td>');
 				$j+=2;
 			}
 			while($j<sizeof($row)) {

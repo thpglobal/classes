@@ -377,7 +377,11 @@ class Table { // These are public for now but may eventually be private with set
 			}
 			$rs=$this->rowspans[$i];
 			if($rs>1) {
-				echo("<td rowspan=$rs>".$row[$j1]."</td>");
+				// Does the row include an info icon?
+				$tag=$row[$j1];
+				$info="";
+				if($ninforow>0) $info=$this->info($this->inforow[$tag]); 
+				echo("<td rowspan=$rs>$info$tag</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}
 			for($j=$j2;$j<sizeof($row??[]);$j++) $this->putcell($row[$j],$j);

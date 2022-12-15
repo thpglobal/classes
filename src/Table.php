@@ -382,7 +382,6 @@ class Table { // These are public for now but may eventually be private with set
 			if($rs) { // is the beginning of an identifier group?
 				// Does the row include an info icon?
 				$tag=$row[$j1];
-				if($rs>)
 				$info="";
 				if($ninforow) $info=$this->info($this->inforow[$tag]); 
 				echo("<td$rss>$info$tag</td>");

@@ -330,10 +330,11 @@ class Table { // These are public for now but may eventually be private with set
 		$nrows=sizeof($this->contents);
 		for($i=1;$i<$nrows;$i++){
 			$iden=$this->contents[$i][$j1];
-			$this->rowspans[$i]=1;
+			$this->rowspans[$i]=0;
 			if($iden<>$first) {
 				$first=$iden;
 				$firstid=$i;
+				$this->rowspans[$i]=1;
 			} else {
 				$this->rowspans[$firstid]++;
 			}
@@ -377,12 +378,14 @@ class Table { // These are public for now but may eventually be private with set
 				$this->putgroup($group);
 			}
 			$rs=$this->rowspans[$i];
-			if($rs>1) {
+			$rss=($rs>1 ? " rowspan=$rs" : ""); // rowspan string
+			if($rs) { // is the beginning of an identifier group?
 				// Does the row include an info icon?
 				$tag=$row[$j1];
+				if($rs>)
 				$info="";
 				if($ninforow) $info=$this->info($this->inforow[$tag]); 
-				echo("<td rowspan=$rs>$info$tag</td>");
+				echo("<td$rss>$info$tag</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}
 			for($j=$j2;$j<sizeof($row??[]);$j++) $this->putcell($row[$j],$j);

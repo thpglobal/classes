@@ -374,7 +374,7 @@ class Table { // These are public for now but may eventually be private with set
 				echo("<td rowspan=$rs>".$row[$j1]."</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}
-			for($j=$j2;$j<(sizeof($row)??0);$j++) $this->putcell($row[$j]);
+			for($j=$j2;$j<sizeof($row??[]);$j++) $this->putcell($row[$j]);
 			echo("<tr>");
 		}
 	}

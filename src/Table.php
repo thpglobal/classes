@@ -339,8 +339,14 @@ class Table { // These are public for now but may eventually be private with set
 			}
 		}		
 	}
-	public function putcell($cell){
-		echo("<td>$cell</td>\n");
+	public function putcell($cell,$j=1){
+		if ( is_numeric($cell) and ($j>=($this->ntext)) ) {
+			$v=$cell;
+			$dp=(strpos($v,'.') ? $this->dpoints : 0);
+			echo("<td align=right>".number_format($v,$dp)."</td>");
+		}else{
+			echo("<td>$cell</td>\n");
+		}
 	}
 	public function putrows_simple($j1=0){
 		// just show the whole grid with nothing fancy
@@ -348,7 +354,7 @@ class Table { // These are public for now but may eventually be private with set
 		for($i=1;$i<$nrows;$i++) {
 			echo("<tr>");
 			$row=$this->contents[$i];
-			for($j=$j1;$j<sizeof($row);$j++) $this->putcell($row[$j]);
+			for($j=$j1;$j<sizeof($row);$j++) $this->putcell($row[$j],$j);
 		}
 	}
 
@@ -374,7 +380,7 @@ class Table { // These are public for now but may eventually be private with set
 				echo("<td rowspan=$rs>".$row[$j1]."</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}
-			for($j=$j2;$j<sizeof($row??[]);$j++) $this->putcell($row[$j]);
+			for($j=$j2;$j<sizeof($row??[]);$j++) $this->putcell($row[$j],$j);
 			echo("<tr>");
 		}
 	}

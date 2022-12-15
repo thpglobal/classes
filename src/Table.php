@@ -367,6 +367,7 @@ class Table { // These are public for now but may eventually be private with set
 	public function putrowspans($j1,$j2){
 		// properly handle groups and rowspans
 		$nrows=sizeof($this->contents);
+		$ninforow=sizeof($this->inforow);
 		$previous_group=0;
 		for($i=1;$i<$nrows;$i++) {
 			$row=$this->contents[$i];
@@ -380,7 +381,7 @@ class Table { // These are public for now but may eventually be private with set
 				// Does the row include an info icon?
 				$tag=$row[$j1];
 				$info="";
-				if($ninforow>0) $info=$this->info($this->inforow[$tag]); 
+				if($ninforow) $info=$this->info($this->inforow[$tag]); 
 				echo("<td rowspan=$rs>$info$tag</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}

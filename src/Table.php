@@ -448,6 +448,7 @@ public function show($href=''){ // experimental version
 	$ngroups=sizeof($this->groups); // Option to group rows with subheaders
 	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
 	$this->href=$href;
+	$j1=($this->href ? $j1+1 : $j1);
 	$this->thead($j1);
 	if($this->rowspan) {
 		$this->create_rowspans($j1);

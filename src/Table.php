@@ -310,7 +310,7 @@ class Table { // These are public for now but may eventually be private with set
 	public function thead($jstart=1){
 		$row=$this->contents[0];
 		$ncols=sizeof($row);
-		$nclasses=sizeof($this->classes);
+		$nclasses=sizeof($this->classes)??0;
 		$striped=($nclasses>0 ? "" : "pure-table-striped");
 		$tid=($_SESSION["datatable"] ? "id='datatable'" : "");
 		$sticky=($_SESSION["datatable"] ? "" : "style='position: sticky; top: -1px;'");
@@ -327,7 +327,7 @@ class Table { // These are public for now but may eventually be private with set
 	// refactor rowspans to be part of the class
 	public function create_rowspans($j1=0){
 		$first="";
-		$nrows=sizeof($this->contents);
+		$nrows=sizeof($this->contents)??0;
 		for($i=1;$i<$nrows;$i++){
 			$iden=$this->contents[$i][$j1];
 			$this->rowspans[$i]=0;

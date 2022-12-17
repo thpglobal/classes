@@ -16,7 +16,7 @@ class Table { // These are public for now but may eventually be private with set
 	public $infocol=array(); // Definitions of column headers
 	public $inforow=array(); // Definitions of rows
     public $infoMatchWithID=FALSE; //Definitions array index will match against concat(id, '_', name) for more unique combination
-	public $classes=array(); // Used for specially coloring of rows
+	public $classes=array(); // Used for special coloring of rows
 	public $href="";
 	public $dpoints=0; // Decimal points
 	public $rowspan2=0; // Note fields need a rowspan mid-row for studies etc.

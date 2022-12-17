@@ -309,7 +309,7 @@ class Table { // These are public for now but may eventually be private with set
 	
 	public function thead($jstart=1){
 		$row=$this->contents[0];
-		$ncols=sizeof($row);
+		$ncols=sizeof($row)??0;
 		$nclasses=sizeof($this->classes)??0;
 		$striped=($nclasses>0 ? "" : "pure-table-striped");
 		$tid=($_SESSION["datatable"] ? "id='datatable'" : "");

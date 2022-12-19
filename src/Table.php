@@ -345,9 +345,9 @@ class Table { // These are public for now but may eventually be private with set
 		if ( is_numeric($cell) and ($j>=($this->ntext)) ) {
 			$v=$cell;
 			$dp=(strpos($v,'.') ? $this->dpoints : 0);
-			echo("<td align=right>".number_format($v,$dp)."</td>");
+			echo("<td>".number_format($v,$dp)."</td>");
 		}else{
-			echo("<td>$cell</td>\n");
+			echo("<td>$cell</td>");
 		}
 	}
 	public function putrows_simple($j1=0){

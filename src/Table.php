@@ -9,6 +9,7 @@ class Table { // These are public for now but may eventually be private with set
 	public $backmap=array(); // Create backpointers to the array after pivot
 	public $rowspans=array(); // >1 means start a rowspan
 	public $extra=array(); // extra headers
+	public $classes=array(); // Used for special coloring of rows
 	public $ntext=1; // number of columns to not be formatted
 	public $groups=array(); // headers
 	public $showGroupID=TRUE; //Print ID and name in the column (rowspanned) header. Set False for not displaying ID.
@@ -16,7 +17,6 @@ class Table { // These are public for now but may eventually be private with set
 	public $infocol=array(); // Definitions of column headers
 	public $inforow=array(); // Definitions of rows
     public $infoMatchWithID=FALSE; //Definitions array index will match against concat(id, '_', name) for more unique combination
-	public $classes=array(); // Used for special coloring of rows
 	public $href="";
 	public $dpoints=0; // Decimal points
 	public $rowspan2=0; // Note fields need a rowspan mid-row for studies etc.
@@ -310,7 +310,8 @@ class Table { // These are public for now but may eventually be private with set
 	public function thead($jstart=1){
 		$row=$this->contents[0];
 		$ncols=sizeof($row)??0;
-		$nclasses=sizeof($this->classes)??0;
+		
+		$nclasses=sizeof($this->classes);
 		$striped=($nclasses>0 ? "" : "pure-table-striped");
 		$tid=($_SESSION["datatable"] ? "id='datatable'" : "");
 		$sticky=($_SESSION["datatable"] ? "" : "style='position: sticky; top: -1px;'");

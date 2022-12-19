@@ -353,6 +353,7 @@ class Table { // These are public for now but may eventually be private with set
 	public function putrows_simple($j1=0){
 		// just show the whole grid with nothing fancy
 		$nrows=sizeof($this->contents);
+		$ncols=sizeof($this->contents[0]);
 		for($i=1;$i<$nrows;$i++) {
 			echo("<tr>");
 			$row=$this->contents[$i];
@@ -362,8 +363,8 @@ class Table { // These are public for now but may eventually be private with set
 				echo('<td><a href="'.$this->href.$row[$j1].'">'.$row[$j1+1].'</td>');
 				$j+=2;
 			}
-			while($j<sizeof($row)) {
-				$this->putcell($row[$j],$j);
+			while($j<$ncols) {
+				$this->putcell($row[$j]??'',$j);
 				$j++;
 			}
 			echo("</tr>\n");
@@ -379,6 +380,7 @@ class Table { // These are public for now but may eventually be private with set
 	public function putrowspans($j1,$j2){
 		// properly handle groups and rowspans
 		$nrows=sizeof($this->contents);
+		$ncols=sizeof($this->contents[0]);
 		$ninforow=sizeof($this->inforow);
 		$previous_group=0;
 		for($i=1;$i<$nrows;$i++) {
@@ -398,7 +400,7 @@ class Table { // These are public for now but may eventually be private with set
 				echo("<td$rss>$info$tag</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}
-			for($j=$j2;$j<sizeof($row??[]);$j++) $this->putcell($row[$j],$j);
+			for($j=$j2;$j<$ncols;$j++) $this->putcell($row[$j]??'',$j);
 			echo("<tr>");
 		}
 	}

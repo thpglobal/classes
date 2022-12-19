@@ -418,7 +418,7 @@ public function show($href=''){ // experimental version
 	$this->href=$href;
 	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
 	$this->thead($j1);
-	$fance=$this->rowspan || $ngroups || $this->inforow;
+	$fancy=$this->rowspan || $ngroups || $this->inforow;
 	if($fancy) {
 		$this->create_rowspans($j1);
 		$this->putrowspans(1,3);

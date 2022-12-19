@@ -4,7 +4,7 @@ namespace Thpglobal\Classes;
 class Table { // These are public for now but may eventually be private with setters
 	protected $db; // database connection
 	public $contents=array(array()); // main 2d array
-	public $hidelink=FALSE; // Option to put href on next column
+	public $hidelink=TRUE; // Option to put href on next column (default to true)
 	public $rowspan=0; // If>0, then start rowspan with column this many columns
 	public $backmap=array(); // Create backpointers to the array after pivot
 	public $rowspans=array(); // >1 means start a rowspan
@@ -359,9 +359,12 @@ class Table { // These are public for now but may eventually be private with set
 			$row=$this->contents[$i];
 			$j=$j1;
 			// if there is a link, combine the first two columns
-			if($this->href) {
+			if($this->href && $this->hidelink) {
 				echo('<td><a href="'.$this->href.$row[$j1].'">'.$row[$j1+1].'</td>');
 				$j+=2;
+			}else if($this->href){
+				echo('<td><a href="'.$this->href.$row[$j1].'">'.$row[$j1].'</td>');
+				$j+=1;
 			}
 			while($j<$ncols) {
 				$this->putcell($row[$j]??'',$j);

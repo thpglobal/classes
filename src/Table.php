@@ -407,54 +407,16 @@ class Table { // These are public for now but may eventually be private with set
 			echo("<tr>");
 		}
 	}
-	public function putrow($row,$href='',$nstart=0,$nrowspan=0,$if_rowspan) { // more code out of show
-		$ninforow=sizeof($this->inforow)??0; // Option to show info symbols at start of row
-		$nclasses=sizeof($this->classes)??0; // Are there special row colors?	
-		$ntag=($this->hidelink ? $nstart-1 : $nstart);
-		$tag=$row[$ntag]; // if there is an id here, this is it
-		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
-		if($class>'') $class=" class=$class";
-		$debugmsg="<td>start $nstart rs $nrowspan if $ifrowspan</td>";
-		echo("<tr$class>"); // Start outputing rows
-		// Here is where all the variability comes in
-		// if there are rowspans we send out the that many columns only at start of a rowspan group
-		debug("Putrow",$debugmsg);
-
-		if( $if_rowspan){
-			$info=''; // do we output the first bits of this row or not?
-			$rs=(($rowspan[$i]??1)>1 ? " rowspan=".$rowspan[$i] : ""); // is there a rowspan clause in the TDs?
-			if($ninforow>0) $info=$this->info($this->inforow[$row[$nstart]])??''; // Does the row include an info icon?
-			if($href>'') {
-				echo("<td$rs><a href='".$href.$row[$ntag]."'>".($info??'').$row[$nstart]."</a></td>"); // a link?
-			} else { 
-				echo("<td$rs>".$info.$row[$nstart]."</td>");
-			} // or no link
-			// are there more columns within the rowspan?
-			if($nrowspan>1) for($j=$nstart+1;$j<($nstart+$nrowspan);$j++) echo("<td$rs>$row[$j]</td>");
-		}
-		$nstart2=(($rowspan??1)>1 ? $nstart+$nrowspan : $nstart+1);
-		$zeros=".00000000";
-		for($j=$nstart2;$j<$ncols;$j++) {
-			$v=$row[$j]??'';
-			$dp=(strpos($v,'.') ? $this->dpoints : 0);
-			if ( is_numeric($v) and ($j>=($this->ntext)) ) $v=number_format($v,$dp);
-			if( ($j==$this->rowspan2) and ($rowspan[$i]>0)) {
-				echo("<td$rs>$v</td>");
-			} elseif($j<>$this->rowspan2) {
-				echo("<td>$v</td>");
-			}
-		} // end j
-		echo("</tr>\n");
-	}
 	
 // SHOW THE TABLE - Including the id column on hrefs, but do skip the groups column
 
 public function show($href=''){ // experimental version
 	// Set parameters appropriate to various options
+	$_SESSION["contents"]=$this->contents; // put it first for easy debug!
 	$ngroups=sizeof($this->groups); // Option to group rows with subheaders
 	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
 	$this->href=$href;
-	$j1=($this->href ? $j1+1 : $j1);
+	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
 	$this->thead($j1);
 	if($this->rowspan) {
 		$this->create_rowspans($j1);
@@ -463,11 +425,7 @@ public function show($href=''){ // experimental version
 		$this->putrows_simple();
 	}
 	echo("</tbody></table>");
-	$_SESSION["contents"]=$this->contents;
 }
-
-
-
 
 // SHOW THE TABLE with colors in different cells
 	// Used for the Audit pages, can be optimized later

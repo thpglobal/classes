@@ -386,6 +386,7 @@ class Table { // These are public for now but may eventually be private with set
 		$ncols=sizeof($this->contents[0]);
 		$ninforow=sizeof($this->inforow);
 		$previous_group=0;
+		
 		for($i=1;$i<$nrows;$i++) {
 			$row=$this->contents[$i];
 			$group=$row[$j1-1]??0;
@@ -414,16 +415,19 @@ public function show($href=''){ // experimental version
 	// Set parameters appropriate to various options
 	$_SESSION["contents"]=$this->contents; // put it first for easy debug!
 	$ngroups=sizeof($this->groups); // Option to group rows with subheaders
+	// j1 indicates which is the first column displayed
 	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
 	$this->href=$href;
+	// if we hide the link, we skip the link parameter column
 	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
 	$this->thead($j1);
 	$fancy=$this->rowspan || $ngroups || $this->inforow;
+	$j2=$j1+$this->rowspan; // indicates where the disaggregate starts)
 	if($fancy) {
 		$this->create_rowspans($j1);
-		$this->putrowspans(1,3);
+		$this->putrowspans($j1,$j2);
 	}else{
-		$this->putrows_simple();
+		$this->putrows_simple($j1);
 	}
 	echo("</tbody></table>");
 }

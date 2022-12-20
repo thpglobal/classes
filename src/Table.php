@@ -4,7 +4,7 @@ namespace Thpglobal\Classes;
 class Table { // These are public for now but may eventually be private with setters
 	protected $db; // database connection
 	public $contents=array(array()); // main 2d array
-	public $hidelink=TRUE; // Option to put href on next column (default to true)
+	public $hidelink=FALSE; // Option to put href on next column
 	public $rowspan=0; // If>0, then start rowspan with column this many columns
 	public $backmap=array(); // Create backpointers to the array after pivot
 	public $rowspans=array(); // >1 means start a rowspan

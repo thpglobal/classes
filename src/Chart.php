@@ -6,7 +6,7 @@ class Chart{
 	public $ncharts=0; // count
 	public $color='white'; // default text color, defines regular page from dashboard dark page
 	public $background='black'; // default for dashboard
-	public $fill="rgba(0,255,0,0.5)"; // 50% transparent green
+	public $fill="rgba(0,100,0,0.3)"; // 50% transparent green
 	public $width=3; // put 3 across unless changed
 	public $db=NULL; // only used with query method
 	public $options="scales:{xAxes:[{gridLines:{color:'yellow'}}],

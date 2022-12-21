@@ -439,6 +439,7 @@ public function show($href=''){ // experimental version
 	// j1 indicates which is the first column displayed
 	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
 	$this->href=$href;
+	if($_COOKIE["debug"]) echo("<p>Classes ".print_r($this->classes,TRUE)."</p>\n");
 	
 	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
 	// we either output start right after j1 or after the rowspan cells

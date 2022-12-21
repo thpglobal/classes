@@ -446,7 +446,7 @@ class Table { // These are public for now but may eventually be private with set
 				}
 			}
 			// Then put the rest (non rs sets j2 to j1+1
-			for($j=$j2;$j<$ncols;$j++){putcell($i,$j);
+			for($j=$j2;$j<$ncols;$j++){$this->putcell($i,$j);
 			}
 			echo("</tr>\n");
 		}
@@ -467,7 +467,7 @@ public function show($href=''){ // experimental version
 	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
 	$j2=$j1+$this->rowspan; // indicates where the disaggregate starts)
 	$this->thead($j1);
-	putrows($j1,$j2);	
+	$this->putrows($j1,$j2);
 }
 /*
 	// if we hide the link, we skip the link parameter column

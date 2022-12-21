@@ -377,7 +377,7 @@ class Table { // These are public for now but may eventually be private with set
 		$width=sizeof($this->contents[0]);
 		if($groupname) echo("<tr><th colspan=$width>$group. $groupname</th></tr>");
 	}
-
+/*
 	public function putrowspans($j1,$j2){
 		// properly handle groups and rowspans
 		$nrows=sizeof($this->contents);
@@ -400,6 +400,7 @@ class Table { // These are public for now but may eventually be private with set
 			echo("<tr>");
 		}
 	}
+*/
 	// all the magic happens in the first cell of the row
 	public function firstcell($i,$j){
 		$cell=$this->contents[$i][$j];
@@ -408,7 +409,7 @@ class Table { // These are public for now but may eventually be private with set
 		$rss=($rs>1 ? " rowspan=$rs" : ""); // rowspan string
 
 		// does this cell include a link?
-		$link=($this->href ? "<a href=$this->href" : "";
+		$link=($this->href ? "<a href=$this->href" : "");
 		if($link) {
 			$jlink=($this->hidelink ? $j-1 : $j);
 			$link.=$this->contents[$jlink];
@@ -421,7 +422,7 @@ class Table { // These are public for now but may eventually be private with set
 		$info=($icon ? $this->info($icon) : "");
 		// ok, put them all together
 		echo("<td$rss>$link$info$cell$closelink</td>");
-		return $rs;
+		return $rss;
 	}
 
 	public function putrows($j1,$j2){

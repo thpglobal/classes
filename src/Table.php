@@ -467,6 +467,7 @@ public function show($href=''){ // experimental version
 	$this->href=$href;
 	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
 	$j2=$j1+$this->rowspan; // indicates where the disaggregate starts)
+	if($_COOKIE["debug"])echo("<p>J $j1 $j2 NG $ngroups</p>\n");
 	$this->thead($j1);
 	$this->putrows($j1,$j2);
 }

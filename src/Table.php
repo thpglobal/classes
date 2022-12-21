@@ -352,56 +352,12 @@ class Table { // These are public for now but may eventually be private with set
 			echo("<td>$cell</td>");
 		}
 	}
-	public function putrows_simple($j1=0){
-		// just show the whole grid with nothing fancy
-		$nrows=sizeof($this->contents);
-		$ncols=sizeof($this->contents[0]);
-		for($i=1;$i<$nrows;$i++) {
-			echo("<tr>");
-			$row=$this->contents[$i];
-			if($this->href) {
-				echo("<td>");
-				put_link_cell($i,$j1); // this includes </td>
-			}else {
-				putcell($row[$j1],$j1); // this includes <td><../td>
-			}
-			while($j<$ncols) {
-				$this->putcell($row[$j]??'',$j);
-				$j++;
-			}
-			echo("</tr>\n");
-		}
-	}
 
 	public function putgroup($group){
 		$groupname=$this->groups[$group]??'';
 		$width=sizeof($this->contents[0]);
 		if($groupname) echo("<tr><th colspan=$width>$group. $groupname</th></tr>");
 	}
-/*
-	public function putrowspans($j1,$j2){
-		// properly handle groups and rowspans
-		$nrows=sizeof($this->contents);
-		$ncols=sizeof($this->contents[0]);
-		$ninforow=sizeof($this->inforow);
-		$previous_group=0;
-		
-		for($i=1;$i<$nrows;$i++) {
-			// Decide if a group header appears
-			$row=$this->contents[$i];
-			$group=$row[$j1-1]??0;
-			if($group<>$previous_group) {
-				$previous_group=$group;
-				$this->putgroup($group);
-			}
-			$rs=$this->rowspans[$i];
-				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
-			}
-			for($j=$j2;$j<$ncols;$j++) $this->putcell($row[$j]??'',$j);
-			echo("<tr>");
-		}
-	}
-*/
 	// all the magic happens in the first cell of the row
 	public function firstcell($i,$j){
 		$cell=$this->contents[$i][$j];
@@ -433,6 +389,11 @@ class Table { // These are public for now but may eventually be private with set
 		$nrows=sizeof($this->contents)??0;
 		$ncols=sizeof($this->contents[0])??0;
 		for($i=1;$i<$nrows;$i++) {
+			// possible paint this row a different color
+			$class=$this->classes[$i]??'';
+			echo("<tr");
+			if($class) echo(" class='$class'");
+			echo(">");
 			// Decide if a group header appears
 			if($ngroups) {
 				$group=$this->contents[$i][0];
@@ -482,29 +443,6 @@ public function show($href=''){ // experimental version
 	$this->putrows($j1,$j2);
 	echo("</tbody></table>");
 }
-/*
-	// if we hide the link, we skip the link parameter column
-	$fancy=$this->rowspan || $ngroups || $this->inforow;
-	if($fancy) {
-		$this->create_rowspans($j1);
-		$this->putrowspans($j1,$j2);
-	}else{
-		$this->putrows_simple($j1);
-	}
-	echo("</tbody></table>");
-}
-	// put this link depending if it gets the value from previous
-	// this gets called only if $href defined
-	public function put_link_cell($i,$j){
-		$cell=$this->contents[$i][$j]];
-		if($this->hidelink) {
-			echo("<a href=".$this->href.$this->contents[$i][$j-1]);
-		}else{
-			echo("<a href='".$this->href."$cell'");
-		}
-		echo("$cell</a></td>");
-	}
-	*/
 
 
 // SHOW THE TABLE with colors in different cells

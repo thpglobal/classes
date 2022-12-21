@@ -430,6 +430,7 @@ class Table { // These are public for now but may eventually be private with set
 		$ngroups=sizeof($this->groups);
 		$previous_group=0;
 		$nrows=sizeof($this->contents)??0;
+		$ncols=sizeof($this->contents[0])??0;
 		for($i=1;$i<$nrows;$i++) {
 			// Decide if a group header appears
 			if($ngroups) {

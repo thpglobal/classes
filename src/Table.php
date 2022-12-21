@@ -387,7 +387,7 @@ class Table { // These are public for now but may eventually be private with set
 		$tag=$this->contents[$i][$ntag]??''; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
 		if($class>'') $class=" class=$class";
-		if($_COOKIE["debug"]) echo("<tr>$tag $class</tr>\n");
+		if($_COOKIE["debug"]) echo("<tr>$i $ntag $tag $class</tr>\n");
 		return $class; 
 	}
 

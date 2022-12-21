@@ -341,6 +341,7 @@ class Table { // These are public for now but may eventually be private with set
 			}
 		}		
 	}
+	// this outputs non-fancy cells
 	public function putcell($cell,$j=1){
 		if ( is_numeric($cell) and ($j>=($this->ntext)) ) {
 			$v=$cell;
@@ -357,14 +358,11 @@ class Table { // These are public for now but may eventually be private with set
 		for($i=1;$i<$nrows;$i++) {
 			echo("<tr>");
 			$row=$this->contents[$i];
-			$j=$j1;
-			// if there is a link, combine the first two columns
-			if($this->href && $this->hidelink) {
-				echo('<td><a href="'.$this->href.$row[$j1].'">'.$row[$j1+1].'</td>');
-				$j+=2;
-			}else if($this->href){
-				echo('<td><a href="'.$this->href.$row[$j1].'">'.$row[$j1].'</td>');
-				$j+=1;
+			if($this->href) {
+				echo("<td>");
+				put_link_cell($i,$j1); // this includes </td>
+			}else {
+				putcell($row[$j1],$j1); // this includes <td><../td>
 			}
 			while($j<$ncols) {
 				$this->putcell($row[$j]??'',$j);
@@ -388,6 +386,7 @@ class Table { // These are public for now but may eventually be private with set
 		$previous_group=0;
 		
 		for($i=1;$i<$nrows;$i++) {
+			// Decide if a group header appears
 			$row=$this->contents[$i];
 			$group=$row[$j1-1]??0;
 			if($group<>$previous_group) {
@@ -395,22 +394,68 @@ class Table { // These are public for now but may eventually be private with set
 				$this->putgroup($group);
 			}
 			$rs=$this->rowspans[$i];
-			$rss=($rs>1 ? " rowspan=$rs" : ""); // rowspan string
-			if($rs) { // is the beginning of an identifier group?
-				// Does the row include an info icon?
-				$tag=$row[$j1];
-				$info="";
-				if($ninforow) $info=$this->info($this->inforow[$tag]); 
-				echo("<td$rss>$info$tag</td>");
 				for($j=$j1+1;$j<$j2;$j++) echo("<td rowspan=$rs>".$row[$j]."</td>");
 			}
 			for($j=$j2;$j<$ncols;$j++) $this->putcell($row[$j]??'',$j);
 			echo("<tr>");
 		}
 	}
-	
-// SHOW THE TABLE - Including the id column on hrefs, but do skip the groups column
+	// all the magic happens in the first cell of the row
+	public function firstcell($i,$j){
+		$cell=$this->contents[$i][$j];
+		// does his cell start a rowspan?
+		$rs=$this->rowspans[$i]??0;
+		$rss=($rs>1 ? " rowspan=$rs" : ""); // rowspan string
 
+		// does this cell include a link?
+		$link=($this->href ? "<a href=$this->href" : "";
+		if($link) {
+			$jlink=($this->hidelink ? $j-1 : $j);
+			$link.=$this->contents[$jlink];
+		}
+		$closelink=($link ? "</a>" : "");
+		
+		// Does the row include an info icon?
+		$info="";
+		$icon=$this->inforow[$cell] ?? "";
+		$info=($icon ? $this->info($icon) : "");
+		// ok, put them all together
+		echo("<td$rss>$link$info$cell$closelink</td>");
+		return $rs;
+	}
+
+	public function putrows($j1,$j2){
+		// determine whether to consider group headers
+		$ngroups=sizeof($this->groups);
+		$previous_group=0;
+		for($i=1;$i<$nrows;$i++) {
+			// Decide if a group header appears
+			if($ngroups) {
+				$group=$this->contents[$i][0];
+				if($group<>$previous_group) {
+					$previous_group=$group;
+					$this->putgroup($group);
+				}
+			}
+			$rss=firstcell($i,$j1); // this is the magic
+			// output other rowspan columns
+			if($rss) {
+				for($j=$j1+1;$j<$j2) {
+					echo("<td $rss>".$this->contents[$i][$j]."</td>")
+				}
+			}
+			// Then put the rest (non rs sets j2 to j1+1
+			for($j=$j2;$j<$ncols;$j++){putcell($i,$j);
+			}
+			echo("</tr>\n");
+		}
+	}
+
+// SHOW THE TABLE - Including the id column on hrefs, but do skip the groups column
+// this handles some really complex options:
+//	* it might have group headers defined in column 0
+//  * it might have a link defined by href
+//  * it might hide that link or not
 public function show($href=''){ // experimental version
 	// Set parameters appropriate to various options
 	$_SESSION["contents"]=$this->contents; // put it first for easy debug!
@@ -418,11 +463,14 @@ public function show($href=''){ // experimental version
 	// j1 indicates which is the first column displayed
 	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
 	$this->href=$href;
-	// if we hide the link, we skip the link parameter column
 	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
-	$this->thead($j1);
-	$fancy=$this->rowspan || $ngroups || $this->inforow;
 	$j2=$j1+$this->rowspan; // indicates where the disaggregate starts)
+	$this->thead($j1);
+	putrows($j1,$j2);	
+}
+/*
+	// if we hide the link, we skip the link parameter column
+	$fancy=$this->rowspan || $ngroups || $this->inforow;
 	if($fancy) {
 		$this->create_rowspans($j1);
 		$this->putrowspans($j1,$j2);
@@ -431,6 +479,19 @@ public function show($href=''){ // experimental version
 	}
 	echo("</tbody></table>");
 }
+	// put this link depending if it gets the value from previous
+	// this gets called only if $href defined
+	public function put_link_cell($i,$j){
+		$cell=$this->contents[$i][$j]];
+		if($this->hidelink) {
+			echo("<a href=".$this->href.$this->contents[$i][$j-1]);
+		}else{
+			echo("<a href='".$this->href."$cell'");
+		}
+		echo("$cell</a></td>");
+	}
+	*/
+
 
 // SHOW THE TABLE with colors in different cells
 	// Used for the Audit pages, can be optimized later

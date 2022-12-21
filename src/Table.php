@@ -471,6 +471,7 @@ public function show($href=''){ // experimental version
 	$j2=$j1+$this->rowspan; // indicates where the disaggregate starts)
 	if($_COOKIE["debug"])echo("<p>J $j1 $j2 NG $ngroups</p>\n");
 	$this->thead($j1);
+	if($this->rowspan) $this->create_rowspans($j1);
 	$this->putrows($j1,$j2);
 }
 /*

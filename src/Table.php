@@ -441,11 +441,16 @@ class Table { // These are public for now but may eventually be private with set
 					$this->putgroup($group);
 				}
 			}
-			$rss=$this->firstcell($i,$j1); // this is the magic
-			// output other rowspan columns
-			if($rss) {
-				for($j=$j1+1;$j<$j2;$j++) {
-					echo("<td $rss>".$this->contents[$i][$j]."</td>");
+			// determine if we are starting a rowspan
+			$rs=$this->rowspans[$i]??0;
+			// if normal line or start of rowspan
+			if(!$this->rowspan || $rs) {
+				$rss=$this->firstcell($i,$j1); // this is the magic
+				// output other rowspan columns
+				if($rss) {
+					for($j=$j1+1;$j<$j2;$j++) {
+						echo("<td $rss>".$this->contents[$i][$j]."</td>");
+					}
 				}
 			}
 			// Then put the rest (non rs sets j2 to j1+1
@@ -467,12 +472,15 @@ public function show($href=''){ // experimental version
 	// j1 indicates which is the first column displayed
 	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
 	$this->href=$href;
+	
 	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
-	$j2=$j1+$this->rowspan; // indicates where the disaggregate starts)
-	if($_COOKIE["debug"])echo("<p>J $j1 $j2 NG $ngroups</p>\n");
+	// we either output start right after j1 or after the rowspan cells
+	$j2=$j1+($this->rowspan ? $this->rowspan : 1);
+	if($_COOKIE["debug"])echo("<p>Hide $this->hidelink H $href J $j1 $j2 NG $ngroups</p>\n");
 	$this->thead($j1);
 	if($this->rowspan) $this->create_rowspans($j1);
 	$this->putrows($j1,$j2);
+	echo("</tbody></table>");
 }
 /*
 	// if we hide the link, we skip the link parameter column

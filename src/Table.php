@@ -381,6 +381,14 @@ class Table { // These are public for now but may eventually be private with set
 		echo("<td$rss>$link$info$cell$closelink</td>");
 		return $rss; // pass this to use it on subsequent cells
 	}
+// is there a special class (eg, color) for row i 
+	public function getclass($i,$j1){
+		$ntag=($this->hidelink ? $j1-1 : $j1);
+		$tag=$row[$ntag]??''; // if there is an id here, this is it
+		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
+		if($class>'') $class=" class=$class";
+		return $class; 
+	}
 
 	public function putrows($j1,$j2){
 		// determine whether to consider group headers
@@ -389,11 +397,9 @@ class Table { // These are public for now but may eventually be private with set
 		$nrows=sizeof($this->contents)??0;
 		$ncols=sizeof($this->contents[0])??0;
 		for($i=1;$i<$nrows;$i++) {
-			// possible paint this row a different color
-			$class=$this->classes[$i]??'';
-			echo("<tr");
-			if($class) echo(" class='$class'");
-			echo(">");
+			// possible paint this row a different color?
+			$class=$this->getclass($i,$j1);
+			echo("<tr$class</tr>\n");
 			// Decide if a group header appears
 			if($ngroups) {
 				$group=$this->contents[$i][0];

@@ -413,7 +413,7 @@ class Table { // These are public for now but may eventually be private with set
 		$link=($this->href ? "<a href=$this->href" : "");
 		if($link) {
 			$jlink=($this->hidelink ? $j-1 : $j);
-			$link.=$this->contents[$jlink];
+			$link.=$this->contents[$i][$jlink].">";
 		}
 		$closelink=($link ? "</a>" : "");
 		
@@ -423,7 +423,7 @@ class Table { // These are public for now but may eventually be private with set
 		$info=($icon ? $this->info($icon) : "");
 		// ok, put them all together
 		echo("<td$rss>$link$info$cell$closelink</td>");
-		return $rss;
+		return $rss; // pass this to use it on subsequent cells
 	}
 
 	public function putrows($j1,$j2){

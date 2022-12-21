@@ -387,6 +387,7 @@ class Table { // These are public for now but may eventually be private with set
 		$tag=$row[$ntag]??''; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
 		if($class>'') $class=" class=$class";
+		if($_COOKIE["debug"]) echo("<tr>$tag $class</tr>\n");
 		return $class; 
 	}
 
@@ -399,7 +400,7 @@ class Table { // These are public for now but may eventually be private with set
 		for($i=1;$i<$nrows;$i++) {
 			// possible paint this row a different color?
 			$class=$this->getclass($i,$j1);
-			echo("<tr$class>\n");
+			echo("<tr$class>");
 			// Decide if a group header appears
 			if($ngroups) {
 				$group=$this->contents[$i][0];

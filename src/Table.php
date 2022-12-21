@@ -384,7 +384,7 @@ class Table { // These are public for now but may eventually be private with set
 // is there a special class (eg, color) for row i 
 	public function getclass($i,$j1){
 		$ntag=($this->hidelink ? $j1-1 : $j1);
-		$tag=$row[$ntag]??''; // if there is an id here, this is it
+		$tag=$this->contents[$i][$ntag]??''; // if there is an id here, this is it
 		$class=$this->classes[$tag]??''; // is there a special class definition for this row?
 		if($class>'') $class=" class=$class";
 		if($_COOKIE["debug"]) echo("<tr>$tag $class</tr>\n");

@@ -441,8 +441,8 @@ class Table { // These are public for now but may eventually be private with set
 			$rss=firstcell($i,$j1); // this is the magic
 			// output other rowspan columns
 			if($rss) {
-				for($j=$j1+1;$j<$j2) {
-					echo("<td $rss>".$this->contents[$i][$j]."</td>")
+				for($j=$j1+1;$j<$j2;$j++) {
+					echo("<td $rss>".$this->contents[$i][$j]."</td>");
 				}
 			}
 			// Then put the rest (non rs sets j2 to j1+1

@@ -399,7 +399,7 @@ class Table { // These are public for now but may eventually be private with set
 		for($i=1;$i<$nrows;$i++) {
 			// possible paint this row a different color?
 			$class=$this->getclass($i,$j1);
-			echo("<tr$class</tr>\n");
+			echo("<tr$class>\n");
 			// Decide if a group header appears
 			if($ngroups) {
 				$group=$this->contents[$i][0];

@@ -84,7 +84,6 @@ class Filter {
 			echo(">$value\n");
 		}
 		echo("</select></div></form>\n");
-		if(!$selected) $_COOKIE[$name]=0;
-		return ($selected ? $now : 0);
+		return $now;
 	}
 }

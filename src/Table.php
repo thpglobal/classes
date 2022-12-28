@@ -415,7 +415,7 @@ class Table { // These are public for now but may eventually be private with set
 			if(!$this->rowspan || $rs) {
 				$rss=$this->firstcell($i,$j1); // this is the magic
 				// output other rowspan columns
-				if($rss) {
+				if($rs) {
 					for($j=$j1+1;$j<$j2;$j++) {
 						echo("<td $rss>".$this->contents[$i][$j]."</td>");
 					}

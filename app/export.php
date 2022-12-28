@@ -3,11 +3,6 @@
 // 2018-11 revised to use internal ZipArchive assuming it works in GAE/PHP7
 // This deals only with files in /tmp to be consistent with GAE
 
-session_start();
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
-error_reporting(E_ALL & ~E_NOTICE);
-
 $contents=$_SESSION["contents"];
 if(sizeof($contents)==0) header("Location:/?reply=Error:+Nothing+to+export.");
 $fname=$_COOKIE["fname"];

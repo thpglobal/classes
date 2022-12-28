@@ -35,7 +35,7 @@ class Filter {
 
 	public function range($name,$n1=1, $n2=4){
 		for($i=$n1;$i<=$n2;$i++) $array[$i]=$i;
-		return $this->pairs($name,$array);
+		return $this->pairs($name,$array,''); // eliminate All from options
 	}
 
 	public function date($name){

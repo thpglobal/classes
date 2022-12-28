@@ -20,6 +20,7 @@ class Table { // These are public for now but may eventually be private with set
 	public $href="";
 	public $dpoints=0; // Decimal points
 	public $rowspan2=0; // Note fields need a rowspan mid-row for studies etc.
+
 	public function start($db){
 		$this->db=$db;
 	}
@@ -323,6 +324,7 @@ class Table { // These are public for now but may eventually be private with set
 			echo("<th $sticky>".str_replace("_"," ",$row[$j])."$infoc</th>");
 		}
 		echo("</tr>\n</thead>\n<tbody>\n");
+		return $ncols;
 	}
 
 	// refactor rowspans to be part of the class
@@ -428,27 +430,36 @@ class Table { // These are public for now but may eventually be private with set
 		}
 	}
 
+	// on datatables, add earchable footer fiels
+	public function searchfooter($j1,$ncols) {
+		echo("<tfoot><tr>");
+		for($j=$j1; $j<$ncols; $j++) echo("<th>".$this->contents[0][$j]."</th>");
+			echo("</tr></tfoot>\n");
+	}
+
 // SHOW THE TABLE - Including the id column on hrefs, but do skip the groups column
 // this handles some really complex options:
 //	* it might have group headers defined in column 0
 //  * it might have a link defined by href
 //  * it might hide that link or not
-public function show($href=''){ // experimental version
-	// Set parameters appropriate to various options
-	$_SESSION["contents"]=$this->contents; // put it first for easy debug!
-	$ngroups=sizeof($this->groups); // Option to group rows with subheaders
-	// j1 indicates which is the first column displayed
-	$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
-	$this->href=$href;
-	if($_COOKIE["debug"]) echo("<p>Classes ".print_r($this->classes,TRUE)."</p>\n");
-	
-	$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
-	// we either output start right after j1 or after the rowspan cells
-	$j2=$j1+($this->rowspan ? $this->rowspan : 1);
-	if($_COOKIE["debug"])echo("<p>Hide $this->hidelink H $href J $j1 $j2 NG $ngroups</p>\n");
-	$this->thead($j1);
-	if($this->rowspan) $this->create_rowspans($j1);
-	$this->putrows($j1,$j2);
-	echo("</tbody></table>");
-}
+	public function show($href=''){ // experimental version
+		// Set parameters appropriate to various options
+		$_SESSION["contents"]=$this->contents; // put it first for easy debug!
+		$ngroups=sizeof($this->groups); // Option to group rows with subheaders
+		// j1 indicates which is the first column displayed
+		$j1=($ngroups ? 1 : 0); // Do we skip over a group colum?
+		$this->href=$href;
+		if($_COOKIE["debug"]) echo("<p>Classes ".print_r($this->classes,TRUE)."</p>\n");
+		
+		$j1=(($this->href && $this->hidelink) ? $j1+1 : $j1);
+		// we either output start right after j1 or after the rowspan cells
+		$j2=$j1+($this->rowspan ? $this->rowspan : 1);
+		if($_COOKIE["debug"])echo("<p>Hide $this->hidelink H $href J $j1 $j2 NG $ngroups</p>\n");
+		$ncols=$this->thead($j1);
+		if($this->rowspan) $this->create_rowspans($j1);
+		$this->putrows($j1,$j2);
+		echo "</tbody>\n";
+		if($_SESSION["datatable"]) $this->searchfooter($j1,$ncols);
+		echo "</table>";
+	}
 }

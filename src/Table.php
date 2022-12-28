@@ -451,6 +451,4 @@ public function show($href=''){ // experimental version
 	$this->putrows($j1,$j2);
 	echo("</tbody></table>");
 }
-
-
-/
+}

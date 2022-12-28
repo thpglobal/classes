@@ -24,7 +24,7 @@ $nrows=sizeof($contents);
 for($i=0;$i<$nrows;$i++){
 	$sheet1b .= '<row r="'.($i+1).'">';
 	for($j=0;$j<$ncols;$j++) {
-		$value=$contents[$i][$j];
+		$value=$contents[$i][$j]??'';
 		$col_name=($j<26 ? chr(65+$j) : chr(64+intdiv($j,26)).chr(65+($j % 26)) );
 		if(!is_numeric($value)) {
 			$value=htmlspecialchars($value);

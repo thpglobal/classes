@@ -345,7 +345,7 @@ class Table { // These are public for now but may eventually be private with set
 	}
 	// this outputs non-fancy cells
 	public function putcell($i,$j=1){
-		$cell=$this->contents[$i][$j];
+		$cell=$this->contents[$i][$j]??'';
 		if ( is_numeric($cell) and ($j>=($this->ntext)) ) {
 			$v=$cell;
 			$dp=(strpos($v,'.') ? $this->dpoints : 0);

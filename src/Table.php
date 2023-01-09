@@ -88,7 +88,7 @@ class Table { // These are public for now but may eventually be private with set
 		if(sizeof($this->backmap)==0) $this->backmap($id_col);
 		$pdo_stmt=$this->db->query($query);
 		$nrows=sizeof($this->contents);
-		while($row = $pdo_stmt->fetch(3)) {
+		while($row = $pdo_stmt->fetch(PDO::FETCH_NUM)) {
 			$n=sizeof($row);
 			$i=$this->backmap[$row[0]??0]??0; // into which row do we plant this?
 			if($i>0 and $i<$nrows) {

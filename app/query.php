@@ -13,7 +13,7 @@ $page->start("Query");
 <button class=pure-button onclick="goclear()">&#x1f5d1;</button> 
 <span id=nq>0</span> queries stored. Loading <span id=iq>0</span>.</p>
 <?php
-echo("<form><textarea id=q name=query rows=3 cols=80>".$_GET["query"]."</textarea><input type=submit onclick='saveq()'></form>\n");
+echo("<form><textarea id=q name=query rows=3 cols=80>".$_GET["query"]??''."</textarea><input type=submit onclick='saveq()'></form>\n");
 if( isset($_GET["query"]) ){
 	$query=$_GET["query"];
 	$start=substr($query,0,4); // determine type of event based on first 4 letters

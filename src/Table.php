@@ -16,6 +16,7 @@ class Table { // These are public for now but may eventually be private with set
 	public $extraheader=""; // Optional Extra headers string
 	public $infocol=array(); // Definitions of column headers
 	public $inforow=array(); // Definitions of rows
+	public $errormsg=""; // used in map_query
     public $infoMatchWithID=FALSE; //Definitions array index will match against concat(id, '_', name) for more unique combination
 	public $href="";
 	public $dpoints=0; // Decimal points

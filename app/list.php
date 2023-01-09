@@ -8,6 +8,6 @@ if($table=='') Die("No table set");
 $page->start($table);
 $grid=new \Thpglobal\Classes\Table;
 $grid->start($db);
-$grid->smartquery($table,$_SESSION["where"]);
+$grid->smartquery($table,$_SESSION["where"]??'');
 $grid->show("/edit?table={$table}&id=");
 $page->end();

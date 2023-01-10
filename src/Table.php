@@ -174,7 +174,7 @@ class Table { // These are public for now but may eventually be private with set
 		for($i=$row1;$i<$nrows;$i++){
 			$this->contents[$i][$ncols]=0;
 			for($j=$col1;$j<$ncols;$j++) {
-				$v=$this->contents[$i][$j];
+				$v=$this->contents[$i][$j]??'';
 				if(is_numeric($v)) $this->contents[$i][$ncols] += $v;
 			}
 		}

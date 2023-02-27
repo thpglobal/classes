@@ -10,12 +10,14 @@
   </head>
   <body>
     <header>
-      <h1">{{ site.title | default: site.github.repository_name }}</h1>
-      <h2 class="project-tagline">{{ site.description | default: site.github.project_tagline }}</h2>
-		  <a href="{{ site.baseurl}}/gae/" class="btn">Google App Engine</a>
-		  <a href="https://thpglobal.github.io/classes/" class="btn">Classes</a>
-		  <a href="https://thpglobal.github.io/gae/" class="btn">Current PHP Version</a>
-		  <a href="https://thpglobal.github.io/thptheme/" class="btn">Wordpress Themes</a>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/classes/">Classes</a></li>
+          <li><a href="/apps/">Generic applications</a></li>
+        </ul>
+      </nav>
+    				 
 	  </header>
 
     <main id="content" class="main-content" role="main">

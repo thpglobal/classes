@@ -79,9 +79,9 @@ class Form {
 		echo("></div>\n");
 	}
 	public function date($name,$required=0){ // This restricts daterange to mindate/maxdate if set
-		if(!isset($this->data[$name])) $this->data[$name]=date("Y-m-d");
+		$preset=$this->data[$name]??"";
 		echo($this->div1."'$name'>".ucwords($name).":</label>");
-		echo("<input type=date name='$name' value='".$this->data[$name]."'");
+		echo("<input type=date name='$name' value='$preset'");
 		if(isset($_COOKIE["mindate"])) echo(" min='".$_COOKIE["mindate"]."'");
 		if(isset($_COOKIE["maxdate"])) echo(" max='".$_COOKIE["maxdate"]."'");
 		if($required) echo (' required');

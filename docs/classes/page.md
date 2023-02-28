@@ -1,3 +1,7 @@
+layout: page
+title: "page"
+permalink: /classes/classes/
+
 # Page Class
 
 Create a page with the standard styles, menu, title and icon controls

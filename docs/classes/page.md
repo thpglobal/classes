@@ -1,6 +1,6 @@
 layout: page
 title: "page"
-permalink: /classes/classes/
+permalink: /classes/classes/page/
 
 # Page Class
 

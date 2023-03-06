@@ -13,15 +13,16 @@
         h1, h2 {font-family: Unna;color: #0000aa; font-size:3rem; font-weight:normal;}
         header {display:flex;}
         nav {align-self:center;}
-ul {
+nav ul {
   background: white;
   list-style: none;
+  color: black;
   margin: 0;
   padding-left: 0;
 }
 
-li {
-  color: #fff;
+nav ul li {
+  color: #black;
   background: white;
   display: block;
   float: left;
@@ -31,16 +32,16 @@ li {
   transition-duration: 0.5s;
 }
   
-li a {
+nav ul li a {
   color: black;
 }
 
-li:hover {
+nav ul li:hover {
   background: lightgray;
   cursor: pointer;
 }
 
-ul li ul {
+nav ul li ul {
   background: white;
   visibility: hidden;
   opacity: 0;
@@ -50,17 +51,17 @@ ul li ul {
   margin-top: 1rem;
   left: 0;
   display: none;
-  z-index=100
+  z-index:100
 }
 
-ul li:hover > ul,
-ul li ul:hover {
+nav ul li:hover > ul,
+nav ul li ul:hover {
   visibility: visible;
   opacity: 1;
   display: block;
 }
 
-ul li ul li {
+nav ul li ul li {
   clear: both;
   width: 100%;
 }

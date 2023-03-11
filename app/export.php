@@ -70,7 +70,7 @@ $tmp = tempnam($dir, $fname);
 
 
 $zip=new ZipArchive; 
-$zip->open($tmp,ZipArchive::CREATE);
+$zip->open($tmp,ZipArchive::OVERWRITE);
 $zip->addFromString("xl/drawings/drawing1.xml", $drawing );
 $zip->addFromString("xl/worksheets/sheet1.xml", $sheet1 );
 $zip->addFromString("xl/worksheets/_rels/sheet1.xml.rels", $sheet1rels );

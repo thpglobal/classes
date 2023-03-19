@@ -46,6 +46,7 @@ nav ul li:hover {
 nav ul li ul {
   background: white;
   visibility: hidden;
+  border: solid 1px black;
   opacity: 0;
   min-width: 5rem;
   position: absolute;
@@ -84,17 +85,25 @@ nav ul li ul li {
     </g></svg>
     <nav><ul>
 	    <li><a href="/classes">INTRO</a></li>
-	    <li><a href="/classes/classes/">CLASSES</a>
+	    <li><a href="/classes/classes/">CLASSES▼</a>
 		<ul class="dropdown">
         		<li><a href="/classes/classes/page">Page</a></li>
         		<li><a href="/classes/classes/filter">Filter</a></li>
         		<li><a href="/classes/classes/form">Form</a></li>
 	      		<li><a href="/classes/classes/table">Table</a></li>
 	      		<li><a href="/classes/classes/chart">Chart</a></li>
+
 		    </ul>
 	    </li>
-        <li><a href="/classes/apps/">APPLICATIONS</a>
-        <li><a href="/classes/examples/">EXAMPLES</a>
+	    <li><a href="/classes/apps/">APPLICATIONS"</a></li>
+        <li><a href="/classes/examples/">EXAMPLES▼"/a>
+		<ul> class="dropdown">
+			<li><a href="/classes/examples/authentication">Authentication</a></li>
+        		<li><a href="/classes/classes/filter">Routing</a></li>
+        		<li><a href="/classes/classes/form">Database</a></li>
+		</ul>
+		</li>
+	    </ul>
     </nav>
     </header>
     <main id="content" class="main-content" role="main">

@@ -1,6 +1,6 @@
 <?php
 // GENERIC UPDATE
-// This is called from various EDIT pages
+// This is called from various EDIT pages -- fixed 3/2023 for preparing insert with $id=NULL;
 if ($_COOKIE["debug"]) {
     echo("<html lang=en><head><meta charset='utf-8'></head><body><h1>Debug Update</h1>\n");
     echo("Post:<pre>".print_r($_POST, TRUE)."</pre>\n");
@@ -8,8 +8,8 @@ if ($_COOKIE["debug"]) {
 
 //sometimes we need zero as default update value, set this variable from the app page
 $id = $_POST["id"];
-if ($id == '') {
-    $id = 0;
+if (!$id) {
+    $id = NULL;
 }
 
 $table = $_POST["table"];
@@ -23,7 +23,7 @@ if ($table == '') {
 }
 
 $prefix = ($id > 0 ? "update" : "insert into");
-$suffix = ($id > 0 ? " where id=:id" : "");
+$suffix = ($id > 0 ? " where id=:id" : ", id=:id ");
 $params = array(':id' => $id);
 
 $query = "$prefix $table set ";

@@ -1,9 +1,11 @@
-body {padding:1em; background-color:white; max-width: 1000px; margin: 0 auto;
-            font-family:"Source Sans Pro"; font-size:1.4rem;}
-        h1, h2 {font-family: Unna;color: #0000aa; font-size:3rem; font-weight:normal;}
-        header {display:flex;}
-        nav {align-self:center;}
-	    a {text-decoration:none;}
+body {
+  padding:1em; 
+  background-color:white; max-width: 1000px; margin: 0 auto; font-family:"Source Sans Pro"; font-size:1.4rem;
+}
+h1, h2 {font-family: Unna;color: #0000aa; font-size:3rem; font-weight:normal;}
+header {display:flex;}
+nav {align-self:center;}
+a {text-decoration:none;}
 
 nav ul {
   background: white;
